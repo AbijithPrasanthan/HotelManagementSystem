@@ -23,14 +23,14 @@ public class Owner extends Manager {
 		String sn = ob.next();
 		
 		preparedStatement = connect.prepareStatement("Delete from Hotelemp WHERE ssn = ?");
-    	preparedStatement.setString(1, sn);
-    	preparedStatement.executeUpdate();
+		preparedStatement.setString(1, sn);
+		preparedStatement.executeUpdate();
 		
 		preparedStatement = connect.prepareStatement("Delete from Employee WHERE ssn = ?");
-    	preparedStatement.setString(1, sn);
-    	preparedStatement.executeUpdate();
-    	
-    	System.out.println("Employee Terminated..");
+		preparedStatement.setString(1, sn);
+		preparedStatement.executeUpdate();
+
+		System.out.println("Employee Terminated..");
 	}
 	
 	void HireEmployee() throws SQLException
@@ -56,17 +56,17 @@ public class Owner extends Manager {
 		String designation = ob.next();
 		
 		preparedStatement = connect.prepareStatement("INSERT INTO Employee VALUES(?,?,?,?,?,?,?,?)");
-    	preparedStatement.setString(1,sn);
-    	preparedStatement.setString(2,fname);
-    	preparedStatement.setString(3,lname);
-    	preparedStatement.setDate(4,target);
-    	preparedStatement.setDouble(5,salary);
-    	preparedStatement.setString(6, designation);
-    	preparedStatement.setString(7, phone);
-    	preparedStatement.setString(8, address);
-    	preparedStatement.executeUpdate();
-    	
-    	System.out.println("New Row Inserted !!!!");
+    		preparedStatement.setString(1,sn);
+		preparedStatement.setString(2,fname);
+		preparedStatement.setString(3,lname);
+		preparedStatement.setDate(4,target);
+		preparedStatement.setDouble(5,salary);
+		preparedStatement.setString(6, designation);
+		preparedStatement.setString(7, phone);
+		preparedStatement.setString(8, address);
+		preparedStatement.executeUpdate();
+
+		System.out.println("New Row Inserted !!!!");
 	}
 	
 
