@@ -11,12 +11,13 @@ public class Dishes
 	
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
+	static Scanner ob = new Scanner(System.in);
     public void init() throws Exception
     {
     	try {
     		Class.forName("org.postgresql.Driver");
     		connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem",
-                    "batch", "gautham123");
+                    "postgres", "gautham");
     		
     		connect.createStatement();
     	}
@@ -26,9 +27,15 @@ public class Dishes
     		throw e;
     	}
     }
-    public void Adddish( String Dishid, String Dishname, double price) throws SQLException 
+    public void Adddish( ) throws SQLException 
     {
-    	preparedStatement = connect.prepareStatement("INSERT INTO Dishes VALUES(?,?,?)");
+    	System.out.println("Enter the  new dishid ");
+		String Dishid =ob.next();
+		System.out.println("Enter the  new dishname ");
+		String Dishname =ob.next();
+		System.out.println("Enter the  new price ");
+		double price=ob.nextDouble();
+    	preparedStatement = connect.prepareStatement("INSERT INTO dish VALUES(?,?,?)");
     	
     	preparedStatement.setString(1,Dishid);
     	preparedStatement.setString(2,Dishname);
@@ -36,12 +43,16 @@ public class Dishes
     	
     	preparedStatement.executeUpdate();
     	
-    	System.out.println("New Row Inserted !!!!");
+    	System.out.println("New Dish Inserted !!!!");
     }
     
-    public void UpdatePrice(String Dishid,double price) throws SQLException
+    public void UpdatePrice() throws SQLException
     {
-    	preparedStatement = connect.prepareStatement("UPDATE Dishes SET Price = ? WHERE Dishid = ?");
+    	System.out.println("Enter the Dishid of the dish to be updated ");
+		String Dishid =ob.next();
+		System.out.println("Enter the  new price ");
+		double price=ob.nextDouble();
+    	preparedStatement = connect.prepareStatement("UPDATE dish SET price = ? WHERE Did = ?");
     	preparedStatement.setDouble(1, price);
     	preparedStatement.setString(2,Dishid);
     	
@@ -50,31 +61,19 @@ public class Dishes
     public static void main(String[] args) throws Exception 
     {
         	Dishes di = new Dishes();
-    		Scanner sc = new Scanner(System.in);
     		di.init();
     		
     		System.out.println("Enter 1 to Upadate price 2 to add dish");
-    		int c= sc.nextInt(); 
+    		int c= ob.nextInt(); 
     		if(c==1)
     		{
-    			System.out.println("Enter the Dishid of the dish to be updated ");
-    			String did =sc.nextLine();
-    			System.out.println("Enter the  new price ");
-    			double price=sc.nextDouble();
-    			di.UpdatePrice(did,price);
+    			di.UpdatePrice();
     			}
     		else
     		{
-    			System.out.println("Enter the  new dishid ");
-    			String did =sc.nextLine();
-    			System.out.println("Enter the  new dishname ");
-    			String dna =sc.nextLine();
-    			System.out.println("Enter the  new price ");
-    			double price=sc.nextDouble();
-    			di.Adddish(did, dna, price);
+    			di.Adddish();
     		}
-    		
-			sc.close();
+    	
 					
     }
 	
