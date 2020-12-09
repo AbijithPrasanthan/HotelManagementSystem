@@ -10,16 +10,18 @@
 /***********************************************************************************************************************************************************************************/
 
 package TEST;
-import java.awt.event.*; 
-import java.awt.*; 
+
+import java.awt.event.*;
+import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 import javax.swing.*;
 
 
-public class login implements ActionListener
+public class login
 {
 	
     
@@ -45,14 +47,33 @@ public class login implements ActionListener
 	private JFrame branchmanager;//branch manager frame
 	
 	private JFrame chef; //chef frame 
+
+	private Connection connect = null;
+	private Statement statement = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
+    
+    public void init() throws Exception{
+    	try {
+    		Class.forName("org.postgresql.Driver");
+    		connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbms",
+                    "postgres", "password");
+    		
+    		statement = connect.createStatement();
+    	}
+    	
+    	catch(Exception e) {
+    		throw e;
+    	}
+    }
     
     login()
     {
+		init();
     	//--------------------------------------------------------HOME PAGE------------------------------------------------------------------------------------
     	home = new JFrame();
 		home.setSize(2000,780);
 		home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		home.setVisible(true);
 		
 		
 		ImageIcon img =new ImageIcon("C:\\Users\\bhara\\Documents\\documents\\college\\SEM3\\OOPs\\HMS_PROJECT\\src\\TEST//mainpage.jpg");//background
@@ -72,8 +93,7 @@ public class login implements ActionListener
 		loginbt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				loginframe.setVisible(true);	
-				home.setVisible(false);				
+				new login();
 			}
 		});
 		loginbt.setBackground(Color.BLACK);
@@ -86,7 +106,6 @@ public class login implements ActionListener
 		JLabel Background=new JLabel("",img,JLabel.CENTER);//background
 		Background.setBounds(10, 0, 1350, 840);
 		home.getContentPane().add(Background);
-		
 		//-------------------------------------------------------MAIN LOGIN FRAME-----------------------------------------------------------------------------------------
 		loginframe = new JFrame();
 		loginframe.setSize(2000,780);
@@ -110,13 +129,6 @@ public class login implements ActionListener
 		loginframe.getContentPane().add(passwordField);
 		
 		JButton adminlogin = new JButton("Admin Login");//admin login button
-		adminlogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				loginframe.setVisible(false);	
-				adminlogframe.setVisible(true);				
-			}
-		});
 		adminlogin.setBackground(Color.BLACK);
 		adminlogin.setForeground(Color.WHITE);
 		adminlogin.setFont(new Font("Times New Roman", Font.PLAIN, 17));
@@ -130,33 +142,16 @@ public class login implements ActionListener
 		loginbutton.setBounds(643, 518, 196, 39);
 		loginframe.getContentPane().add(loginbutton);
 		
-		JButton backbutton = new JButton("BACK");//BACK BUTTON
-		backbutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				home.setVisible(true);				
-				loginframe.setVisible(false);	
-			}
-		});
-		backbutton.setForeground(Color.WHITE);
-		backbutton.setBackground(Color.BLACK);
-		backbutton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		backbutton.setBounds(48, 49, 131, 39);
-		loginframe.getContentPane().add(backbutton);
-		
-		
-		
 		JLabel Background2=new JLabel("",img,JLabel.CENTER);//background
 		Background2.setBounds(10, 0, 1350, 840);
 		loginframe.getContentPane().add(Background2);
-		
 		//--------------------------------------------------------ADMIN LOGIN FRAME----------------------------------------------------------------------------------------
 		adminlogframe = new JFrame();
 		adminlogframe.setSize(2000,780);
 		adminlogframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
-		ImageIcon img1 =new ImageIcon("C:\\Users\\bhara\\Documents\\documents\\college\\SEM3\\OOPs\\HMS_PROJECT\\src\\TEST//homepage.jpg");//background
+		ImageIcon img =new ImageIcon("C:\\Users\\bhara\\Documents\\documents\\college\\SEM3\\OOPs\\HMS_PROJECT\\src\\TEST//homepage.jpg");//background
 		//                           ------------------------------------------------------------------------------------
 		//                           This is the path of the image file stored in your system.this path may vary from system to system.
 		//                           So to get a the proper layout of the image,do go to the src folder of this project and copy the path of homepage.jpg file.
@@ -179,29 +174,29 @@ public class login implements ActionListener
 		adm_loginbutton.setBounds(643, 518, 196, 39);
 		adminlogframe.getContentPane().add(adm_loginbutton);
 		
-		JLabel lblNewLabel = new JLabel("ADMIN");
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 29));
-		lblNewLabel.setForeground(Color.BLACK);
-		lblNewLabel.setBounds(631, 46, 105, 32);
+		JLabel lblNewLabel = new JLabel("      ( Administrative Access)");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setBounds(584, 292, 212, 14);
 		adminlogframe.getContentPane().add(lblNewLabel);
-		
-		backbutton = new JButton("BACK");//BACK BUTTON
-		backbutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				loginframe.setVisible(true);				
-				adminlogframe.setVisible(false);	
-			}
-		});
-		backbutton.setForeground(Color.WHITE);
-		backbutton.setBackground(Color.BLACK);
-		backbutton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		backbutton.setBounds(48, 49, 94, 32);
-		adminlogframe.getContentPane().add(backbutton);
 		
 		JLabel Background3=new JLabel("",img,JLabel.CENTER);//background
 		Background3.setBounds(10, 0, 1350, 840);
 		adminlogframe.getContentPane().add(Background3);
+		
+		adm_loginbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = adm_loginfield.getText();
+				String eid = new String(adm_passwordField.getPassword());
+				if(AdminLogin(name,eid)) {
+					
+				}
+				else {
+					
+				}
+			}
+			
+		});
     	
     //----------------------------------------------------------------------Admin's Frame-------------------------------------------------------------------------------------------------------
     		
@@ -289,10 +284,8 @@ public class login implements ActionListener
        		Panel panel_2 = new Panel();//CONTENT PANEL
        		panel_2.setBackground(new Color(255, 255, 255));
        		panel_2.setBounds(199, 118, 1150, 571);
-       		Admin.getContentPane().add(panel_2);
-    		
-    		
-    		
+			Admin.getContentPane().add(panel_2);
+
     //----------------------------------------------------------------------Senior Manager Frame-----------------------------------------------------------------------------------		
         
        		seniormanager = new JFrame();//senior manager frame details
@@ -524,20 +517,29 @@ public class login implements ActionListener
     		Panel panel_5 = new Panel();
     		panel_5.setBackground(new Color(255, 255, 255));
     		panel_5.setBounds(199, 118, 1150, 571);
-    		chef.getContentPane().add(panel_5);
-    
-    
+			chef.getContentPane().add(panel_5);
     }
-    
+	
+	public boolean AdminLogin(String name,String password) throws SQLException{
+		String sql = "SELECT ssn,designation FROM EMPLOYEE WHERE fname = '" + name.toUpperCase() + "'";
+		resultSet = statement.executeQuery(sql);
+		
+		while(resultSet.next()) {
+			System.out.println(resultSet.getString("designation"));
+			if(resultSet.getString("designation").equals("ADMIN")) {
+				System.out.println("Check 1 passed");
+				if(resultSet.getString("ssn").equals(password)) {
+					System.out.println("Check 2 passed");
+					return true;
+				}
+			}
+		}
+		return false;
+
+    }
     public static void main(String[] args) 
 	{
 		 new login();   
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
