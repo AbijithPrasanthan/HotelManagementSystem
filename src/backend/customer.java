@@ -50,7 +50,7 @@ public class customer {
 		}
 		
 		for(int i=0;i<orderedDishes.length;i++) {
-			resultSet = statement.executeQuery("select price from dish where dname = " + orderedDishes[i]);
+			resultSet = statement.executeQuery("select price from dish where dname = '" + orderedDishes[i] + "'");
 			while(resultSet.next()) {
 				amt += (resultSet.getDouble("price")); 
 			}
