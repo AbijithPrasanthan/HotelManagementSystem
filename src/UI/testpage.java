@@ -1,32 +1,12 @@
+package backend;
+//import backend.Owner;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import java.awt.Color;
-import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import java.awt.TextField;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-
-import java.awt.Label;
-import java.awt.Button;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JSplitPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JToolBar;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import java.awt.Font;
-import java.awt.Canvas;
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.Dimension;
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-import java.awt.Panel;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.ParseException;
+import java.sql.*;
 
 public class testpage {
 
@@ -43,17 +23,18 @@ public class testpage {
 	JPanel updt_pers;
 	JPanel updt_price;
 	
+	protected Connection connect = null;
+	protected Statement statement = null;
+    protected PreparedStatement preparedStatement = null;
+    protected ResultSet resultSet = null;
+	
 	String HName;
-
 	
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	Owner ob;
+	hotel hobj;
+	Manager mobj;
+	chef cobj;
 	
-	
-
 	/**
 	 * Launch the application.
 	 */
@@ -69,16 +50,37 @@ public class testpage {
 			}
 		});
 	}
+	
+    public void init() throws Exception{
+        try {
+          Class.forName("org.postgresql.Driver");
+          connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbms","postgres", "password");
+          System.out.println("Connected to database");
+          statement = connect.createStatement();
+        }
+        
+        catch(Exception e) {
+          throw e;
+        }
+      }
 
 	
-	public testpage() {
+	public testpage() throws Exception {
+		init();
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws Exception 
 	 */
-	private void initialize() {
+	private void initialize() throws Exception {
+		
+		ob = new Owner();
+		hobj = new hotel();
+		mobj = new Manager("E8456");
+		
+		JFrame alert=new JFrame();
 		frame = new JFrame();
 		frame.getContentPane().setFont(new Font("Adobe Fangsong Std R", Font.BOLD, 18));
 		frame.getContentPane().setBackground(new Color(220, 20, 60));
@@ -198,6 +200,8 @@ public class testpage {
 				updt_branchdet.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				
+				//resultSet = statement.executeQuery("SELECT designation,hid FROM EMPLOYEE NATURAK JOIN HOTELEMP")
 			}
 		});
 		btnUpdateOfficialDetails.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -310,10 +314,19 @@ public class testpage {
 		firebtn.setBackground(Color.BLACK);
 		firebtn.setBounds(476, 131, 89, 23);
 		fire_employee.add(firebtn);
-	    
-	    
 		
-		
+		firebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String ssn = SSN_text2.getText().toUpperCase();
+				try {
+					ob.FireEmployee(ssn);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
 		//-------------------------------hire employee panel------------------------------------------
 		
 		hire_employee = new JPanel();//hire employee panel
@@ -409,12 +422,42 @@ public class testpage {
 		add_txt.setBounds(155, 299, 245, 21);
 		hire_employee.add(add_txt);
 		
+		JLabel appntd_hid_lbl = new JLabel("Appointed Hotel id:");
+		appntd_hid_lbl.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		appntd_hid_lbl.setBounds(20, 341, 120, 14);
+		hire_employee.add(appntd_hid_lbl);
+
+		JTextField appntd_hid = new JTextField();//text field for appointed hotel id
+		appntd_hid.setColumns(10);
+		appntd_hid.setBounds(155, 341, 245, 21);
+		hire_employee.add(appntd_hid);
+		
 		JButton appointbtn = new JButton("APPOINT");//appoint button
 		appointbtn.setForeground(Color.WHITE);
 		appointbtn.setFont(new Font("Times New Roman", Font.PLAIN, 11));
 		appointbtn.setBackground(Color.BLACK);
 		appointbtn.setBounds(497, 349, 89, 23);
 		hire_employee.add(appointbtn);
+		
+		appointbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String ssn = SSN_text.getText().toUpperCase();
+				String fname = Fname_txt.getText();
+				String lname = Lname_txt.getText();
+				Double sal = Double.parseDouble(salary_txt.getText());
+				String desig = Desig_txt.getText();
+				String phone = Phn_txt.getText();
+				String add = add_txt.getText();
+				String hid = appntd_hid.getText();
+				
+				try {
+					ob.HireEmployee(hid, ssn, fname, lname, sal, desig, phone, add);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(alert,"Invalid Credentials");
+				}
+			}
+		});
 		
 		
 		
@@ -456,6 +499,12 @@ public class testpage {
 		Updatebtn.setBounds(561, 194, 89, 23);
 		Update_WkPlce.add(Updatebtn);
 		
+		Updatebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 		//------------------------------------profitability panel---------------------------------------
 		profit = new JPanel();
 		profit.setVisible(false);
@@ -495,34 +544,51 @@ public class testpage {
 		Delightful.setBounds(113, 189, 179, 23);
 		profit.add(Delightful);
 		
-	
-	    System.out.println(HName);
+		JLabel msg = new JLabel();
+		msg.setBounds(113, 250, 500, 23);
+		profit.add(msg);
 	    
 	    JButton chk_btn = new JButton("Check");
 		chk_btn.setBounds(522, 203, 89, 23);
 		profit.add(chk_btn);
+		
 		chk_btn.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) 
 	    	{
+				String STR;
 	    		 if(Whole_Delight.isSelected()) {
 				    	HName = "RedFork Whole Delight";
-				    }
+	    		 }
 				    
-				    if(Olive.isSelected()) {
-				    	HName = "RedFork Olive";
-				    }
+	    		 if(Olive.isSelected()) {
+			    	HName = "RedFork Olive";
+	    		 }
+			    
+	    		 if(East_Treats.isSelected()) {
+			    	HName = "RedFork East Treats";
+	    		 }
+			    
+	    		 if(Four_Seasons.isSelected()) {
+			    	HName = "RedFork Four Seasons";
+	    		 }
+			    
+	    		 if(Delightful.isSelected()) {
+			    	HName = "RedFork Delightful";
+	    		 }
 				    
-				    if(East_Treats.isSelected()) {
-				    	HName = "RedFork East Treats";
-				    }
-				    
-				    if(Four_Seasons.isSelected()) {
-				    	HName = "RedFork Four Seasons";
-				    }
-				    
-				    if(Delightful.isSelected()) {
-				    	HName = "RedFork Delightful";
-				    }
+			    try {
+					Double profitVal = Double.valueOf(String.format("%.2f",hobj.ViewProfitability(HName)));
+					if(profitVal > 0) {
+						STR = HName + " is at a profit of " + profitVal;
+					}
+					else {
+						STR = HName + " is at a loss of " + profitVal;
+					}
+					msg.setText(STR);
+				} 
+			    catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 	    	}
 	    });
 		
@@ -565,6 +631,9 @@ public class testpage {
 		Delightful2.setBounds(113, 189, 179, 23);
 		maintenance.add(Delightful2);
 		
+		JLabel maintainMsg = new JLabel();
+		maintainMsg.setBounds(113, 250, 500, 23);
+		maintenance.add(maintainMsg);
 	
 	    System.out.println(HName);
 	    
@@ -574,6 +643,7 @@ public class testpage {
 		chk_btn2.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) 
 	    	{
+	    		String str;
 	    		 if(Whole_Delight2.isSelected()) {
 				    	HName = "RedFork Whole Delight";
 				    }
@@ -593,6 +663,21 @@ public class testpage {
 				    if(Delightful2.isSelected()) {
 				    	HName = "RedFork Delightful";
 				    }
+				    
+				   try {
+					long dur = hobj.checkMaintenence(HName);
+					if(dur > 365) {
+						str = "Your maintenance is due !!!";
+					}
+					
+					else {
+						str = "You have " + dur + " days till next maintenance";
+					}
+					maintainMsg.setText(str);
+					
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				} 
 	    	}
 	    });		    
 		
@@ -636,8 +721,6 @@ public class testpage {
 		Delightful3.setBounds(113, 189, 179, 23);
 		updt_branchdet.add(Delightful3);
 		
-	
-	    System.out.println(HName);
 	    
 	    JButton submitbtn = new JButton("Update");//submit button
 	    submitbtn.setBounds(300, 350, 89, 23);
@@ -667,25 +750,36 @@ public class testpage {
 		submitbtn.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) 
 	    	{
-	    		 if(Whole_Delight2.isSelected()) {
+	    		double rev = 0,exp = 0;
+	    		 if(Whole_Delight3.isSelected()) {
 				    	HName = "RedFork Whole Delight";
 				    }
 				    
-				    if(Olive2.isSelected()) {
+				    if(Olive3.isSelected()) {
 				    	HName = "RedFork Olive";
 				    }
 				    
-				    if(East_Treats2.isSelected()) {
+				    if(East_Treats3.isSelected()) {
 				    	HName = "RedFork East Treats";
 				    }
 				    
-				    if(Four_Seasons2.isSelected()) {
+				    if(Four_Seasons3.isSelected()) {
 				    	HName = "RedFork Four Seasons";
 				    }
 				    
-				    if(Delightful2.isSelected()) {
+				    if(Delightful3.isSelected()) {
 				    	HName = "RedFork Delightful";
 				    }
+				    
+				    rev = Double.valueOf(revenue.getText());
+				    exp = Double.valueOf(expenditure.getText());
+
+				    try {
+						hobj.UpdateOfficialdetails(rev, exp, HName);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 	    	}
 	    });		    
 		
@@ -710,7 +804,7 @@ public class testpage {
 		SSN3.setBounds(20, 43, 46, 14);
 		updt_offdt.add(SSN3);
 		
-		JTextField SSN_text3 = new JTextField(null);// SSN text field
+		JTextField SSN_text3 = new JTextField(" ");// SSN text field
 		SSN_text3.setBounds(155, 41, 245, 20);
 		updt_offdt.add(SSN_text3);
 		SSN_text3.setColumns(10);
@@ -722,7 +816,7 @@ public class testpage {
 		desig_lbl.setBounds(20,80, 86, 24);
 		updt_offdt.add(desig_lbl);
 		
-		JTextField desig_txt = new JTextField(null);// designation text field
+		JTextField desig_txt = new JTextField(" ");// designation text field
 		desig_txt.setBounds(155, 80, 245, 20);
 		updt_offdt.add(desig_txt);
 		desig_txt.setColumns(10);
@@ -732,7 +826,7 @@ public class testpage {
 		wrkplc_lbl.setBounds(20,120, 86, 24);
 		updt_offdt.add(wrkplc_lbl);
 		
-		JTextField wrkplc_txt = new JTextField(null);// workplace text field
+		JTextField wrkplc_txt = new JTextField(" ");// workplace text field
 		wrkplc_txt.setBounds(155, 120, 245, 20);
 		updt_offdt.add(wrkplc_txt);
 		wrkplc_txt.setColumns(10);
@@ -742,7 +836,7 @@ public class testpage {
 		sal_lbl.setBounds(20,160, 86, 24);
 		updt_offdt.add(sal_lbl);
 		
-		JTextField sal_txt = new JTextField(null);// salary text field
+		JTextField sal_txt = new JTextField("0.00");// salary text field
 		sal_txt.setBounds(155, 160, 245, 20);
 		updt_offdt.add(sal_txt);
 		sal_txt.setColumns(10);
@@ -753,6 +847,37 @@ public class testpage {
 		updatebtn.setBackground(Color.BLACK);
 		updatebtn.setBounds(450, 240, 120, 23);
 		updt_offdt.add(updatebtn);
+		
+		updatebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String desig,ssn = null,wrk;
+				try {
+					ssn = SSN3.getText();
+				}
+				catch(Exception e1) {
+					JOptionPane.showMessageDialog(alert,"SSN should not be empty");
+				}
+				try{
+					desig = desig_txt.getText();
+				}
+				catch(Exception e2) {
+					desig = "";
+				}
+				try {
+					wrk = wrkplc_txt.getText();
+				}
+				catch(Exception e3) {
+					wrk = "";
+				}
+				double salPercent = Double.valueOf(sal_txt.getText());
+				
+				try {
+					mobj.UpdateOfficialdetails(ssn, desig, wrk, salPercent);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(alert,"Invalid Input");
+				}
+			}
+		});
 		
 		//----------------------------------------update personal details panel---------------------------------------------------
 		
@@ -834,15 +959,6 @@ public class testpage {
 		updatebtn3.setBackground(Color.BLACK);
 		updatebtn3.setBounds(440, 150, 120, 23);
 		updt_price.add(updatebtn3);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 	}
 }

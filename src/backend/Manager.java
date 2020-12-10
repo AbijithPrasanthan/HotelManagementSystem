@@ -1,4 +1,4 @@
-package dbthing;
+package backend;
 
 import java.sql.Connection;
 import java.util.Date;
@@ -32,7 +32,7 @@ public class Manager implements Employee{
     public void init() throws Exception{
       try {
         Class.forName("org.postgresql.Driver");
-        connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem","postgres", "jimbalakadibamba");
+        connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbms","postgres", "password");
         System.out.println("Connected to database");
         statement = connect.createStatement();
       }
@@ -123,61 +123,53 @@ public class Manager implements Employee{
     }
     
     
-    void UpdateWorkplace(String s) throws SQLException
+    void UpdateWorkplace(String wrk,String ssn) throws SQLException
     {
-    	System.out.println("Enter the new hotel's id : ");
-    	String hid = ob.next();
     	preparedStatement = connect.prepareStatement("UPDATE HotelEmp SET Hid = ? WHERE SSN = ?");
-        preparedStatement.setString(1,hid);   
-        preparedStatement.setString(2,s); 
+        preparedStatement.setString(1,wrk);   
+        preparedStatement.setString(2,ssn); 
         preparedStatement.executeUpdate();
     }
     
     
     
-    void UpdateOfficialdetails() throws SQLException
+    void UpdateOfficialdetails(String ssn,String desig,String wrk, Double salPercent) throws SQLException
     {
-    	System.out.println("Enter SSN of employee : ");
-    	String s = ob.next();
-    	System.out.println("Choose what to update : ");
-        System.out.println("1. Designation");
-        System.out.println("2. Salary");
-        System.out.println("3. Workplace");
-        int choice = ob.nextInt();
-        if(choice == 1)
-        {
-          System.out.println("Choose a valid designation : ");                                            //Ithu radiobutton kittiyal nallathu.
-          String designation = ob.next();
-          preparedStatement = connect.prepareStatement("UPDATE Employee SET designation = ? WHERE SSN = ?");
-            preparedStatement.setString(1,designation);    
-            preparedStatement.setString(2,s); 
-            preparedStatement.executeUpdate();
-        }
-        else if(choice == 2)
-        {
-          double sal = 0;
-          System.out.println("Enter salary hike percent : ");
-          double salarypercent = ob.nextDouble();
-          resultSet = statement.executeQuery("select sal from Employee where ssn = '"+ssn+"'");
-            while(resultSet.next())
-            {
-              sal = resultSet.getDouble("sal");
-              System.out.println("Salary : " + sal);
-            } 
-            sal = Double.valueOf(String.format("%.2f",sal));
-            sal = sal + sal*salarypercent * 100;
-            sal = sal + calculatebonus();
-            sal = Double.valueOf(String.format("%.2f",sal));
-            System.out.println("Salary : " + sal);
-            preparedStatement = connect.prepareStatement("UPDATE Employee SET SAL = ? WHERE SSN = ?");
-            preparedStatement.setDouble(1,sal);    
-            preparedStatement.setString(2,s); 
-            preparedStatement.executeUpdate();
-        }
-        else if(choice == 3)
-        {
-          UpdateWorkplace(s);
-        }
+    	Double sal = 0.0;
+    	try {
+	        if(!desig.isEmpty())
+	        {
+	          preparedStatement = connect.prepareStatement("UPDATE Employee SET designation = ? WHERE SSN = ?");
+	            preparedStatement.setString(1,desig);    
+	            preparedStatement.setString(2,ssn); 
+	            preparedStatement.executeUpdate();
+	        }
+	        else if(salPercent > 0)
+	        {
+	          resultSet = statement.executeQuery("select sal from Employee where ssn = '"+ssn+"'");
+	            while(resultSet.next())
+	            {
+	              sal = resultSet.getDouble("sal");
+	              System.out.println("Salary : " + sal);
+	            } 
+	            sal = Double.valueOf(String.format("%.2f",sal));
+	            sal = sal + sal*salPercent * 100;
+	            sal = sal + calculatebonus();
+	            sal = Double.valueOf(String.format("%.2f",sal));
+	            System.out.println("Salary : " + sal);
+	            preparedStatement = connect.prepareStatement("UPDATE Employee SET SAL = ? WHERE SSN = ?");
+	            preparedStatement.setDouble(1,sal);    
+	            preparedStatement.setString(2,ssn); 
+	            preparedStatement.executeUpdate();
+	        }
+	        else if(!wrk.isEmpty())
+	        {
+	          UpdateWorkplace(wrk,ssn);
+	        }
+    	}
+    	catch(Exception e) {
+    		throw e;
+    	}
     }
     
      
@@ -202,19 +194,5 @@ public class Manager implements Employee{
       bonus = Double.valueOf(String.format("%.2f",bonus));
       return bonus;
   }
-    
-
-  public static void main(String[] args) throws Exception {
-      // TODO Auto-generated method stub
-	  System.out.print("Enter ssn of the employee : ");
-      String s = ob.next();
-      Manager m = new Manager(s);
-      m.init();
-      m.ViewPersonaldetails();
-      m.ViewOfficialdetails();
-      m.UpdatePersonaldetails();
-      m.UpdateOfficialdetails();
-    }
   
 }
-

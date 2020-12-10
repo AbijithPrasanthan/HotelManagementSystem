@@ -32,6 +32,8 @@ public class hotel {
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
     
+    Object[] vals;
+    
     public void init() throws Exception{
     	try {
     		Class.forName("org.postgresql.Driver");
@@ -45,6 +47,10 @@ public class hotel {
     		throw e;
     	}
     }
+    
+    hotel() throws Exception{
+    	init();
+    }
 	
 	public void ViewBranchDetails() throws SQLException{
 		resultSet = statement.executeQuery("SELECT * FROM HOTEL");
@@ -56,20 +62,21 @@ public class hotel {
 			Expenditure = resultSet.getDouble("expenditure");
 			HCity = resultSet.getString("city");
 			HState = resultSet.getString("state");
+			
+			
 		}
 	}
 	
-	protected boolean ViewProfitability(String name) throws SQLException{		
-		resultSet = statement.executeQuery("SELECT hname,revenue,expenditure FROM HOTEL where hname = " + name);
-		if(resultSet.getDouble("revenue") > resultSet.getDouble("expenditure")) {
-			System.out.println("Hotel: " + name);
-			System.out.println("Profit: " + (resultSet.getDouble("revenue")  - resultSet.getDouble("expenditure")));
-			return true;
-		}
-		return false;
+	protected double ViewProfitability(String name) throws SQLException{	
+		Double profit = 0.0;
+		resultSet = statement.executeQuery("SELECT hname,revenue,expenditure FROM HOTEL where hname = '" + name + "'");
+		while(resultSet.next())
+			profit = resultSet.getDouble("revenue")  - resultSet.getDouble("expenditure");
+		return profit;
 	}
 	
-	protected boolean checkMaintenence(String Hid) throws SQLException, ParseException {
+	protected long checkMaintenence(String name) throws SQLException, ParseException {
+		long dur = 0;
 		Date date = Calendar.getInstance().getTime();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -78,58 +85,38 @@ public class hotel {
 		java.sql.Date target = java.sql.Date.valueOf(dStr);
 		LocalDate end = LocalDate.parse(dStr, dtf);
 		
-	    resultSet = statement.executeQuery("SELECT sdate from hotel where Hid = '" + Hid + "'");
+	    resultSet = statement.executeQuery("SELECT Last_Maintenance from hotel where hname = '" + name + "'");
 	    
 	    while(resultSet.next()) {
-	    	Date left = resultSet.getDate("sdate");
-	    	long dur = TimeUnit.MILLISECONDS.toDays(date.getTime()-left.getTime());
-
-	    	/*Make sdate to lastMaintence*/
-	    	
+	    	Date left = resultSet.getDate("last_maintenance");
+	    	dur = TimeUnit.MILLISECONDS.toDays(date.getTime()-left.getTime());	    	
 	    	if(dur > 365) {
-	    		preparedStatement = connect.prepareStatement("UPDATE HOTEL SET sdate = ? where HID = ?");
+	    		preparedStatement = connect.prepareStatement("UPDATE HOTEL SET Last_Maintenance = ? where hname = ?");
 	    		preparedStatement.setDate(1, target);
-	    		preparedStatement.setString(2, Hid);
+	    		preparedStatement.setString(2, name);
 	    		
 	    		preparedStatement.executeUpdate();
-	    		return true;
 	    	}
 	    }
-	    return false;
+    	return dur;
 	}
-	void UpdateBranchdetails(String Hid) throws SQLException
-	    {
-	    System.out.println("Choose what to update : ");
-		System.out.println("1. Revenue");
-		System.out.println("2. Expenditure");
-		int choice = ob.nextInt();
-		if(choice == 1)
+	
+	void UpdateOfficialdetails(double rev,double exp,String name) throws SQLException
+    {
+		if(rev > 0)
 		{
-		  System.out.println("Enter new Revenue to be updated ");  
-		  Double rev = ob.nextDouble();
-		  preparedStatement = connect.prepareStatement("UPDATE hotel SET revenue = ? WHERE hid = ?");
+		  preparedStatement = connect.prepareStatement("UPDATE hotel SET revenue = ? WHERE hname = ?");
 		    preparedStatement.setDouble(1,rev);    
-		    preparedStatement.setString(2,Hid); 
+		    preparedStatement.setString(2,name); 
 		    preparedStatement.executeUpdate();
 		}
-		else if(choice == 2)
+		if(exp > 0)
 		{
-		  System.out.println("Enter new Expenditure to be updated ");
-		  Double exe = ob.nextDouble();
-		  preparedStatement = connect.prepareStatement("UPDATE hotel SET expenditure = ? WHERE hid = ?");
-		    preparedStatement.setDouble(1,exe);    
-		    preparedStatement.setString(2,Hid); 
+		  preparedStatement = connect.prepareStatement("UPDATE hotel SET expenditure = ? WHERE hname = ?");
+		    preparedStatement.setDouble(1,exp);    
+		    preparedStatement.setString(2,name); 
 		    preparedStatement.executeUpdate();
 		}
 
-	    }
-	
-	
-	public static void main(String[] args) throws Exception{
-		hotel o = new hotel();
-		o.init();
-		System.out.println(o.checkMaintenence("H5061"));
-		o.ViewBranchDetails();
-		System.out.println("DONE");
-	}
+    }
 }
