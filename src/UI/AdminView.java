@@ -1,4 +1,4 @@
-package backend;
+package dbthing;
 //import backend.Owner;
 import java.awt.EventQueue;
 
@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.sql.*;
 
-public class testpage {
+public class AdminView {
 
 	private JFrame frame;
 	private JFrame main_f;
@@ -36,15 +36,12 @@ public class testpage {
 	hotel hobj;
 	Manager mobj;
 	chef cobj;
-	
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					testpage window = new testpage();
+					AdminView window = new AdminView();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +53,7 @@ public class testpage {
     public void init() throws Exception{
         try {
           Class.forName("org.postgresql.Driver");
-          connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbms","postgres", "password");
+          connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem","postgres", "jimbalakadibamba");
           System.out.println("Connected to database");
           statement = connect.createStatement();
         }
@@ -67,15 +64,11 @@ public class testpage {
       }
 
 	
-	public testpage() throws Exception {
+	public AdminView() throws Exception {
 		init();
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 * @throws Exception 
-	 */
 	private void initialize() throws Exception {
 		
 		ob = new Owner();
@@ -123,6 +116,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnFireEmployee.setBackground(Color.WHITE);
@@ -144,6 +138,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnHireEmployee.setBackground(Color.WHITE);
@@ -164,6 +159,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnCheckMaintenance.setBackground(Color.WHITE);
@@ -171,11 +167,6 @@ public class testpage {
 		panel.add(btnCheckMaintenance);
 		
 		
-		JButton btnNewButton_3 = new JButton("View Branch Details");
-		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnNewButton_3.setBounds(10, 464, 140, 36);
-		btnNewButton_3.setBackground(Color.WHITE);
-		panel.add(btnNewButton_3);
 		
 		JButton btnUpdateBranchDetails = new JButton("Update Branch Details");
 		btnUpdateBranchDetails.addActionListener(new ActionListener() {
@@ -190,6 +181,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdateBranchDetails.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -211,6 +203,7 @@ public class testpage {
 				updt_branchdet.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 				
 				//resultSet = statement.executeQuery("SELECT designation,hid FROM EMPLOYEE NATURAK JOIN HOTELEMP")
 			}
@@ -233,6 +226,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_price.setVisible(false);
 				updt_branchdet.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdatePersonalDetails.setFont(new Font("Tahoma", Font.PLAIN, 9));
@@ -255,6 +249,7 @@ public class testpage {
 				updt_pers.setVisible(false);
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdatePrices.setBounds(10, 649, 140, 36);
@@ -275,11 +270,33 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnProfitability.setBounds(10, 370, 140, 36);
 		btnProfitability.setBackground(Color.WHITE);
 		panel.add(btnProfitability);
+		
+		JButton viewBranchBtn = new JButton("View Branch Details");		
+		viewBranchBtn.setFont(new Font("Tahoma", Font.PLAIN, 10));		
+		viewBranchBtn.addActionListener(new ActionListener() {		
+			public void actionPerformed(ActionEvent e) 		
+			{		
+				branchdet.setVisible(true);		
+				profit.setVisible(false);		
+				hire_employee.setVisible(false);		
+				fire_employee.setVisible(false);		
+				Update_WkPlce.setVisible(false);		
+				updt_branchdet.setVisible(false);		
+				updt_pers.setVisible(false);		
+				updt_offdt.setVisible(false);		
+				maintenance.setVisible(false);		
+				updt_price.setVisible(false);		
+			}		
+		});		
+				
+		viewBranchBtn.setBounds(10, 464, 140, 36);		
+		panel.add(viewBranchBtn);
 		
 		
 		JPanel panel_1 = new JPanel();
@@ -1145,3 +1162,5 @@ public class testpage {
 			
 		}
 }
+
+
