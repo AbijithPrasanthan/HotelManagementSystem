@@ -5,7 +5,6 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import java.awt.TextField;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
@@ -115,6 +114,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnFireEmployee.setBackground(Color.WHITE);
@@ -135,6 +135,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnHireEmployee.setBackground(Color.WHITE);
@@ -142,6 +143,7 @@ public class testpage {
 		panel.add(btnHireEmployee);
 		
 		JButton btnCheckMaintenance = new JButton("Check Maintenance");
+		btnCheckMaintenance.setBackground(Color.WHITE);
 		btnCheckMaintenance.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnCheckMaintenance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
@@ -155,6 +157,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnCheckMaintenance.setBounds(10, 417, 140, 36);
@@ -162,11 +165,28 @@ public class testpage {
 		
 		
 		JButton btnNewButton_3 = new JButton("View Branch Details");
+		btnNewButton_3.setBackground(Color.WHITE);
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				branchdet.setVisible(true);
+				updt_branchdet.setVisible(false);
+				maintenance.setVisible(false);
+				hire_employee.setVisible(false);
+				fire_employee.setVisible(false);
+				Update_WkPlce.setVisible(false);
+				profit.setVisible(false);
+				updt_offdt.setVisible(false);
+				updt_pers.setVisible(false);
+				updt_price.setVisible(false);
+			}
+		});
 		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnNewButton_3.setBounds(10, 464, 140, 36);
 		panel.add(btnNewButton_3);
 		
 		JButton btnUpdateBranchDetails = new JButton("Update Branch Details");
+		btnUpdateBranchDetails.setBackground(Color.WHITE);
 		btnUpdateBranchDetails.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -179,6 +199,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdateBranchDetails.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -187,6 +208,7 @@ public class testpage {
 		
 		
 		JButton btnUpdateOfficialDetails = new JButton("Update Official Details");
+		btnUpdateOfficialDetails.setBackground(Color.WHITE);
 		btnUpdateOfficialDetails.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -199,6 +221,7 @@ public class testpage {
 				updt_branchdet.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdateOfficialDetails.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -206,6 +229,7 @@ public class testpage {
 		panel.add(btnUpdateOfficialDetails);
 		
 		JButton btnUpdatePersonalDetails = new JButton("Update Personal Details");
+		btnUpdatePersonalDetails.setBackground(Color.WHITE);
 		btnUpdatePersonalDetails.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -218,6 +242,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_price.setVisible(false);
 				updt_branchdet.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdatePersonalDetails.setFont(new Font("Tahoma", Font.PLAIN, 9));
@@ -226,6 +251,7 @@ public class testpage {
 		
 		
 		JButton btnUpdatePrices = new JButton("Update Prices");
+		btnUpdatePrices.setBackground(Color.WHITE);
 		btnUpdatePrices.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -238,12 +264,14 @@ public class testpage {
 				updt_pers.setVisible(false);
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdatePrices.setBounds(10, 649, 140, 36);
 		panel.add(btnUpdatePrices);
 		
 		JButton btnProfitability = new JButton("Profitability");
+		btnProfitability.setBackground(Color.WHITE);
 		btnProfitability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -256,6 +284,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);
 			}
 		});
 		btnProfitability.setBounds(10, 370, 140, 36);
@@ -852,7 +881,7 @@ public class testpage {
 		
 		
 		branchdet=new JPanel();
-		branchdet.setVisible(true);
+		branchdet.setVisible(false);
 		branchdet.setBounds(192, 11, 688, 549);
 		panel_2.add(branchdet);
 		branchdet.setLayout(null);
