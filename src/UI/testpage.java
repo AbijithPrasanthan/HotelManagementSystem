@@ -409,6 +409,16 @@ public class testpage {
 		add_txt.setBounds(155, 299, 245, 21);
 		hire_employee.add(add_txt);
 		
+		JLabel appntd_hid_lbl = new JLabel("Appointed Hotel id:");
+		appntd_hid_lbl.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		appntd_hid_lbl.setBounds(20, 341, 120, 14);
+		hire_employee.add(appntd_hid_lbl);
+		
+		JTextField appntd_hid = new JTextField();//text field for appointed hotel id
+		appntd_hid.setColumns(10);
+		appntd_hid.setBounds(155, 341, 245, 21);
+		hire_employee.add(appntd_hid);
+		
 		JButton appointbtn = new JButton("APPOINT");//appoint button
 		appointbtn.setForeground(Color.WHITE);
 		appointbtn.setFont(new Font("Times New Roman", Font.PLAIN, 11));
