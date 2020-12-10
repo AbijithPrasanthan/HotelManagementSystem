@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.sql.*;
 
 public class testpage {
@@ -43,7 +44,7 @@ public class testpage {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminView window = new AdminView();
+					testpage window = new testpage();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -121,6 +122,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);	
 			}
 		});
 		btnFireEmployee.setBackground(Color.WHITE);
@@ -141,6 +143,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);	
 			}
 		});
 		btnHireEmployee.setBackground(Color.WHITE);
@@ -161,16 +164,11 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);	
 			}
 		});
 		btnCheckMaintenance.setBounds(10, 417, 140, 36);
 		panel.add(btnCheckMaintenance);
-		
-		
-		JButton btnNewButton_3 = new JButton("View Branch Details");
-		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnNewButton_3.setBounds(10, 464, 140, 36);
-		panel.add(btnNewButton_3);
 		
 		JButton btnUpdateBranchDetails = new JButton("Update Branch Details");
 		btnUpdateBranchDetails.addActionListener(new ActionListener() {
@@ -185,6 +183,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);	
 			}
 		});
 		btnUpdateBranchDetails.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -205,7 +204,7 @@ public class testpage {
 				updt_branchdet.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				
+				branchdet.setVisible(false);	
 				//resultSet = statement.executeQuery("SELECT designation,hid FROM EMPLOYEE NATURAK JOIN HOTELEMP")
 			}
 		});
@@ -226,6 +225,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_price.setVisible(false);
 				updt_branchdet.setVisible(false);
+				branchdet.setVisible(false);	
 			}
 		});
 		btnUpdatePersonalDetails.setFont(new Font("Tahoma", Font.PLAIN, 9));
@@ -246,6 +246,7 @@ public class testpage {
 				updt_pers.setVisible(false);
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
+				branchdet.setVisible(false);	
 			}
 		});
 		btnUpdatePrices.setBounds(10, 649, 140, 36);
@@ -264,10 +265,33 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
 				updt_price.setVisible(false);
+				branchdet.setVisible(false);	
 			}
 		});
 		btnProfitability.setBounds(10, 370, 140, 36);
 		panel.add(btnProfitability);
+		
+		
+		JButton viewBranchBtn = new JButton("View Branch Details");	
+		viewBranchBtn.setFont(new Font("Tahoma", Font.PLAIN, 10));	
+		viewBranchBtn.addActionListener(new ActionListener() {	
+			public void actionPerformed(ActionEvent e) 	
+			{	
+				branchdet.setVisible(true);	
+				profit.setVisible(false);	
+				hire_employee.setVisible(false);	
+				fire_employee.setVisible(false);	
+				Update_WkPlce.setVisible(false);	
+				updt_branchdet.setVisible(false);	
+				updt_pers.setVisible(false);	
+				updt_offdt.setVisible(false);	
+				maintenance.setVisible(false);	
+				updt_price.setVisible(false);	
+			}	
+		});	
+			
+		viewBranchBtn.setBounds(10, 464, 140, 36);	
+		panel.add(viewBranchBtn);
 		
 		
 		JPanel panel_1 = new JPanel();
@@ -947,6 +971,7 @@ public class testpage {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				JOptionPane.showMessageDialog(alert,"Updated !!");
 			}
 		});
 		
@@ -1051,74 +1076,84 @@ public class testpage {
 			
 		
 		    //IVIDE...
-		    
-		    JButton chk_btn3 = new JButton("View");
-			chk_btn3.setBounds(522, 203, 89, 23);
-			branchdet.add(chk_btn3);
-			chk_btn3.addActionListener(new ActionListener() {
-		    	public void actionPerformed(ActionEvent e) 
-		    	{
-		    		 if(Whole_Delight4.isSelected()) {
-					    	HName = "RedFork Whole Delight";
-					    }
-					    
-					    if(Olive4.isSelected()) {
-					    	HName = "RedFork Olive";
-					    }
-					    
-					    if(East_Treats4.isSelected()) {
-					    	HName = "RedFork East Treats";
-					    }
-					    
-					    if(Four_Seasons4.isSelected()) {
-					    	HName = "RedFork Four Seasons";
-					    }
-					    
-					    if(Delightful4.isSelected()) {
-					    	HName = "RedFork Delightful";
-					    }
-		    	}
-		    });
 			
-			JLabel hid_viwbrch=new JLabel("H_id:");
-			hid_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-			hid_viwbrch.setBounds(6, 250, 138, 20);
-			branchdet.add(hid_viwbrch);
-			
-			JLabel hname_viwbrch=new JLabel("H_name:");
-			hname_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-			hname_viwbrch.setBounds(6, 290, 138, 20);
-			branchdet.add(hname_viwbrch);
-			
-			JLabel strtdt_viwbrch=new JLabel("Start Date:");
-			strtdt_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-			strtdt_viwbrch.setBounds(6, 330, 138, 20);
-			branchdet.add(strtdt_viwbrch);
-			
-			JLabel rvnu_viwbrch=new JLabel("Revenue:");
-			rvnu_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-			rvnu_viwbrch.setBounds(6, 370, 138, 20);
-			branchdet.add(rvnu_viwbrch);
-			
-			JLabel expndtr_viwbrch=new JLabel("Expenditure:");
-			expndtr_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-			expndtr_viwbrch.setBounds(6, 410, 138, 20);
-			branchdet.add(expndtr_viwbrch);
-			
-			JLabel city_viwbrch=new JLabel("City:");
-			city_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-			city_viwbrch.setBounds(6, 450, 138, 20);
-			branchdet.add(city_viwbrch);
-			
-			JLabel state_viwbrch=new JLabel("State:");
-			state_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-			state_viwbrch.setBounds(6, 490, 138, 20);
-			branchdet.add(state_viwbrch);
-			
-			JLabel lstmaint_viwbrch=new JLabel("Last Maintained:");
-			lstmaint_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-			lstmaint_viwbrch.setBounds(6, 530, 138, 20);
+			JLabel hid_viwbrch=new JLabel();	
+			hid_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
+			hid_viwbrch.setBounds(6, 250, 138, 20);	
+			branchdet.add(hid_viwbrch);	
+				
+			JLabel hname_viwbrch=new JLabel();	
+			hname_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
+			hname_viwbrch.setBounds(6, 290, 138, 20);	
+			branchdet.add(hname_viwbrch);	
+				
+			JLabel strtdt_viwbrch=new JLabel();	
+			strtdt_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
+			strtdt_viwbrch.setBounds(6, 330, 138, 20);	
+			branchdet.add(strtdt_viwbrch);	
+				
+			JLabel rvnu_viwbrch=new JLabel();	
+			rvnu_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
+			rvnu_viwbrch.setBounds(6, 370, 138, 20);	
+			branchdet.add(rvnu_viwbrch);	
+				
+			JLabel expndtr_viwbrch=new JLabel();	
+			expndtr_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
+			expndtr_viwbrch.setBounds(6, 410, 138, 20);	
+			branchdet.add(expndtr_viwbrch);	
+				
+			JLabel location_viwbrch=new JLabel();	
+			location_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
+			location_viwbrch.setBounds(6, 450, 138, 20);	
+			branchdet.add(location_viwbrch);	
+				
+			JLabel lstmaint_viwbrch=new JLabel();	
+			lstmaint_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
+			lstmaint_viwbrch.setBounds(6, 490, 138, 20);	
 			branchdet.add(lstmaint_viwbrch);
+		    
+		    JButton chk_btn3 = new JButton("View");	
+			chk_btn3.setBounds(522, 203, 89, 23);	
+			branchdet.add(chk_btn3);	
+			chk_btn3.addActionListener(new ActionListener() {	
+				Object HData[];	
+		    	public void actionPerformed(ActionEvent e) 	
+		    	{	
+		    		if (Whole_Delight4.isSelected()) {
+		    		    HName = "RedFork Whole Delight";
+		    		}
+
+		    		if (Olive4.isSelected()) {
+		    		    HName = "RedFork Olive";
+		    		}
+
+		    		if (East_Treats4.isSelected()) {
+		    		    HName = "RedFork East Treats";
+		    		}
+
+		    		if (Four_Seasons4.isSelected()) {
+		    		    HName = "RedFork Four Seasons";
+		    		}
+
+		    		if (Delightful4.isSelected()) {
+		    		    HName = "RedFork Delightful";
+		    		}
+		    		try {
+						HData = hobj.ViewBranchDetails(HName);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		    		
+		    		hid_viwbrch.setText("Hotel ID: " + HData[0]);
+		    		hname_viwbrch.setText("Name: " + HData[1]);
+		    		strtdt_viwbrch.setText("Start Date: " + HData[2]);
+		    		rvnu_viwbrch.setText("Revenue: " + HData[3]);
+		    		expndtr_viwbrch.setText("Expenditure: " + HData[4]);
+		    		location_viwbrch.setText("Location: " + HData[5] + ", " + HData[6]);
+		    		lstmaint_viwbrch.setText("Last Maintenance on: " + HData[7]);
+		    	}	
+		    });	
 			
 		}
 }
