@@ -42,6 +42,7 @@ public class testpage {
 	JPanel updt_offdt;
 	JPanel updt_pers;
 	JPanel updt_price;
+	JPanel branchdet;
 	
 	String HName;
 
@@ -409,6 +410,7 @@ public class testpage {
 		add_txt.setBounds(155, 299, 245, 21);
 		hire_employee.add(add_txt);
 		
+		
 		JLabel appntd_hid_lbl = new JLabel("Appointed Hotel id:");
 		appntd_hid_lbl.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		appntd_hid_lbl.setBounds(20, 341, 120, 14);
@@ -506,7 +508,7 @@ public class testpage {
 		profit.add(Delightful);
 		
 	
-	    System.out.println(HName);
+	    
 	    
 	    JButton chk_btn = new JButton("Check");
 		chk_btn.setBounds(522, 203, 89, 23);
@@ -846,13 +848,116 @@ public class testpage {
 		updt_price.add(updatebtn3);
 		
 		
+		//----------------------------------------------View Branch details pane--------------------------------------------------------------
 		
 		
+		branchdet=new JPanel();
+		branchdet.setVisible(true);
+		branchdet.setBounds(192, 11, 688, 549);
+		panel_2.add(branchdet);
+		branchdet.setLayout(null);
+		
+		JLabel viw_brnchdet = new JLabel("View Branch Details :");//heading label of panel
+		viw_brnchdet.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		viw_brnchdet.setBounds(6, 6, 220, 21);
+		branchdet.add(viw_brnchdet);
 		
 		
+		JLabel rest_lbl3 = new JLabel("Select your restaurant :");
+		rest_lbl3.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		rest_lbl3.setBounds(6, 56, 138, 20);
+		branchdet.add(rest_lbl3);
 		
+		JRadioButton Whole_Delight4 = new JRadioButton("RedFork Whole Delight");
+		Whole_Delight4.setBounds(113, 83, 179, 23);
+		branchdet.add(Whole_Delight4);
 		
+		JRadioButton Olive4 = new JRadioButton("RedFork Olive");
+		Olive4.setBounds(113, 111, 179, 23);
+		branchdet.add(Olive4);
 		
+		JRadioButton East_Treats4 = new JRadioButton("RedFork East Treats");
+		East_Treats4.setBounds(113, 137, 179, 23);
+		branchdet.add(East_Treats4);
+		
+		JRadioButton Four_Seasons4 = new JRadioButton("RedFork Four Seasons");
+		Four_Seasons4.setBounds(113, 163, 179, 23);
+		branchdet.add(Four_Seasons4);
+		
+		JRadioButton Delightful4 = new JRadioButton("RedFork Delightful");
+		Delightful4.setBounds(113, 189, 179, 23);
+		branchdet.add(Delightful4);
+		
+	
+	    //IVIDE...
+	    
+	    JButton chk_btn3 = new JButton("View");
+		chk_btn3.setBounds(522, 203, 89, 23);
+		branchdet.add(chk_btn3);
+		chk_btn3.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) 
+	    	{
+	    		 if(Whole_Delight4.isSelected()) {
+				    	HName = "RedFork Whole Delight";
+				    }
+				    
+				    if(Olive4.isSelected()) {
+				    	HName = "RedFork Olive";
+				    }
+				    
+				    if(East_Treats4.isSelected()) {
+				    	HName = "RedFork East Treats";
+				    }
+				    
+				    if(Four_Seasons4.isSelected()) {
+				    	HName = "RedFork Four Seasons";
+				    }
+				    
+				    if(Delightful4.isSelected()) {
+				    	HName = "RedFork Delightful";
+				    }
+	    	}
+	    });
+		
+		JLabel hid_viwbrch=new JLabel("H_id:");
+		hid_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		hid_viwbrch.setBounds(6, 250, 138, 20);
+		branchdet.add(hid_viwbrch);
+		
+		JLabel hname_viwbrch=new JLabel("H_name:");
+		hname_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		hname_viwbrch.setBounds(6, 290, 138, 20);
+		branchdet.add(hname_viwbrch);
+		
+		JLabel strtdt_viwbrch=new JLabel("Start Date:");
+		strtdt_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		strtdt_viwbrch.setBounds(6, 330, 138, 20);
+		branchdet.add(strtdt_viwbrch);
+		
+		JLabel rvnu_viwbrch=new JLabel("Revenue:");
+		rvnu_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		rvnu_viwbrch.setBounds(6, 370, 138, 20);
+		branchdet.add(rvnu_viwbrch);
+		
+		JLabel expndtr_viwbrch=new JLabel("Expenditure:");
+		expndtr_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		expndtr_viwbrch.setBounds(6, 410, 138, 20);
+		branchdet.add(expndtr_viwbrch);
+		
+		JLabel city_viwbrch=new JLabel("City:");
+		city_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		city_viwbrch.setBounds(6, 450, 138, 20);
+		branchdet.add(city_viwbrch);
+		
+		JLabel state_viwbrch=new JLabel("State:");
+		state_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		state_viwbrch.setBounds(6, 490, 138, 20);
+		branchdet.add(state_viwbrch);
+		
+		JLabel lstmaint_viwbrch=new JLabel("Last Maintained:");
+		lstmaint_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		lstmaint_viwbrch.setBounds(6, 530, 138, 20);
+		branchdet.add(lstmaint_viwbrch);
 		
 	}
 }
