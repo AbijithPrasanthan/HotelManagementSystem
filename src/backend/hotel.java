@@ -97,7 +97,7 @@ public class hotel {
 	    }
 	    return false;
 	}
-	void UpdateOfficialdetails(String Hid) throws SQLException
+	void UpdateBranchdetails(String Hid) throws SQLException
 	    {
 	    System.out.println("Choose what to update : ");
 		System.out.println("1. Revenue");
