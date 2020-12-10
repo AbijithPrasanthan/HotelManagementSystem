@@ -52,19 +52,28 @@ public class hotel {
     	init();
     }
 	
-	public void ViewBranchDetails() throws SQLException{
-		resultSet = statement.executeQuery("SELECT * FROM HOTEL");
+	public Object[] ViewBranchDetails(String name) throws SQLException{
+		Object HData[] = new Object[10];
+		resultSet = statement.executeQuery("SELECT * FROM HOTEL where hname = '" + name + "'");
 		while(resultSet.next()) {
 			Hid = resultSet.getString("hid");
+			HData[0] = Hid;
 			HName = resultSet.getString("hname");
+			HData[1] = HName;
 			SDate = resultSet.getDate("sdate");
+			HData[2] = SDate;
 			Revenue = resultSet.getDouble("revenue");
+			HData[3] = Revenue;
 			Expenditure = resultSet.getDouble("expenditure");
+			HData[4] = Expenditure;
 			HCity = resultSet.getString("city");
+			HData[5] = HCity;
 			HState = resultSet.getString("state");
-			
-			
+			HData[6] = HState;
+			LastMaintenenceDate = resultSet.getDate("last_maintenance");
+			HData[7] = LastMaintenenceDate;
 		}
+		return HData;
 	}
 	
 	protected double ViewProfitability(String name) throws SQLException{	
