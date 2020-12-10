@@ -1,4 +1,4 @@
-package demoDB;
+package backend;
 
 import java.sql.Connection;
 import java.util.Date;
@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 class chef implements Employee
 {
-	String SSN;
+	String ssn;
     String Fname;
     String Lname;
     String Address;
@@ -39,6 +39,10 @@ class chef implements Employee
     		throw e;
     	}
     }
+	
+	chef(String ssn){
+		this.ssn = ssn;
+	}
     
     public void UpdateWorkplace() throws SQLException
     {
@@ -46,12 +50,12 @@ class chef implements Employee
         String hid = ob.next();
         preparedStatement = connect.prepareStatement("UPDATE HotelEmp SET Hid = ? WHERE SSN = ?");
           preparedStatement.setString(1,hid);   
-          preparedStatement.setString(2,SSN); 
+          preparedStatement.setString(2,ssn); 
           preparedStatement.executeUpdate();
       }
     public void ViewPersonaldetails() throws SQLException
     {
-    	preparedStatement =connect.prepareStatement("select fname,lname,doj,address,phone from employee where ssn = '"+SSN+"'");  
+    	preparedStatement =connect.prepareStatement("select fname,lname,doj,address,phone from employee where ssn = '"+ssn+"'");  
     	ResultSet rs=preparedStatement.executeQuery(); 
         while(rs.next())
         {
@@ -60,14 +64,14 @@ class chef implements Employee
           Date = rs.getDate(3);
           Address = rs.getString(4);
           Phone = rs.getString(5);
-          System.out.println("Social Security Number : " + SSN);
+          System.out.println("Social Security Number : " + ssn);
           System.out.println("First Name : " + Fname);
           System.out.println("Last Name : " + Lname);
           System.out.println("Date : " + Date);
           System.out.println("Address : "+Address);
           System.out.println("Phone number : "+Phone);
         }
-          preparedStatement =connect.prepareStatement("select speciality from chef where ssn = '"+SSN+"'");  
+          preparedStatement =connect.prepareStatement("select speciality from chef where ssn = '"+ssn+"'");  
       	  ResultSet rss=preparedStatement.executeQuery();
           while(rss.next())
           {
@@ -78,7 +82,7 @@ class chef implements Employee
     }
     public  void ViewOfficialdetails()throws SQLException
 	  {
-       	preparedStatement =connect.prepareStatement("select designation,sal from Employee where ssn = '"+SSN+"'");  
+       	preparedStatement =connect.prepareStatement("select designation,sal from Employee where ssn = '"+ssn+"'");  
     	ResultSet rs=preparedStatement.executeQuery(); 
         while(rs.next())
         {
@@ -87,7 +91,7 @@ class chef implements Employee
           System.out.println("Designation : " + Designation);
           System.out.println("Salary : " + Salary);
         }  
-        preparedStatement =connect.prepareStatement("select hname from Hotelemp NATURAL JOIN Hotel where ssn = '"+SSN+"'");  
+        preparedStatement =connect.prepareStatement("select hname from Hotelemp NATURAL JOIN Hotel where ssn = '"+ssn+"'");  
     	ResultSet rss=preparedStatement.executeQuery(); 
         while(rss.next())
         {
@@ -100,47 +104,22 @@ class chef implements Employee
     {
     	return true;
     }
-	public  void UpdatePersonaldetails()throws SQLException
+	public  void UpdatePersonaldetails(String phone, String address)throws SQLException
 	{
-		System.out.println("Choose what to update : ");
-	      System.out.println("1. Address");
-	      System.out.println("2. Phone");
-	      int opt = ob.nextInt();
-	      
-	      if(opt == 1)
+		if(!phone.isEmpty())
 	      {
-	    	  	System.out.print("Enter the new phone number : ");
-	    	  	String phone = ob.next();
 		      	preparedStatement = connect.prepareStatement("UPDATE Employee SET phone = ? WHERE SSN = ?");
 		        preparedStatement.setString(1,phone);   
-		        preparedStatement.setString(2,SSN); 
+		        preparedStatement.setString(2,ssn); 
 		        preparedStatement.executeUpdate();
 	      }
-	      else if(opt == 2)
+	      else if(!address.isEmpty())
 	      {
-	    	  	System.out.print("Enter the new phone number : ");
-	    	  	String address = ob.next();
 		        preparedStatement = connect.prepareStatement("UPDATE Employee SET address = ? WHERE SSN = ?");
 		        preparedStatement.setString(1,address);    
-		        preparedStatement.setString(2,SSN); 
+		        preparedStatement.setString(2,ssn); 
 		        preparedStatement.executeUpdate();
 	      }
-	        
-	    
 	}
-    public static void main(String[] args) throws Exception 
-    {
-        
-        
-        chef m = new chef();
-    	System.out.print("Enter ssn of the employee : ");
-        m.SSN = ob.next();
-        m.init();
-        m.ViewPersonaldetails();
-        m.ViewOfficialdetails();
-        m.UpdatePersonaldetails();
-        m.UpdateWorkplace();
-					
-    }
 	
 }

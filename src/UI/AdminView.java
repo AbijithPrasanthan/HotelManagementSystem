@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.text.ParseException;
 import java.sql.*;
 
-public class AdminView {
+public class testpage {
 
 	private JFrame frame;
 	private JFrame main_f;
@@ -66,7 +66,7 @@ public class AdminView {
       }
 
 	
-	public AdminView() throws Exception {
+	public testpage() throws Exception {
 		init();
 		initialize();
 	}
@@ -80,6 +80,10 @@ public class AdminView {
 		ob = new Owner();
 		hobj = new hotel();
 		mobj = new Manager("E8456");
+		
+		mobj.init();
+		hobj.init();
+		ob.init();
 		
 		JFrame alert=new JFrame();
 		frame = new JFrame();
@@ -936,6 +940,13 @@ public class AdminView {
 				catch(Exception addE) {
 					add = "";
 				}
+				
+				try {
+					mobj.UpdatePersonaldetails(phn, add);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -978,6 +989,25 @@ public class AdminView {
 		updatebtn3.setBackground(Color.BLACK);
 		updatebtn3.setBounds(440, 150, 120, 23);
 		updt_price.add(updatebtn3);
+		
+		updatebtn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String DishId;
+				Double newPrice;
+				
+				try {
+					DishId = dishid_txt.getText();
+					newPrice = Double.valueOf(updtprice_txt.getText());
+					if(DishId.isEmpty()) {
+						throw new Exception();
+					}
+				}
+				
+				catch(Exception DishE) {
+					JOptionPane.showMessageDialog(alert,"Fields Should not be empty");
+				}
+			}
+		});
 	
 	//----------------------------------------------View Branch details pane--------------------------------------------------------------
 	

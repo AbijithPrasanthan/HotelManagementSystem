@@ -93,33 +93,24 @@ public class Manager implements Employee{
 
     
     @Override
-    public void UpdatePersonaldetails() throws SQLException {
-      // TODO Auto-generated method stub
-      
-      System.out.println("Choose what to update : ");
-      System.out.println("1. Address");
-      System.out.println("2. Phone");
-      int opt = ob.nextInt();
-      
-      if(opt == 1)
-      {
-    	  	System.out.print("Enter the new phone number : ");
-    	  	String phone = ob.next();
-	      	preparedStatement = connect.prepareStatement("UPDATE Employee SET phone = ? WHERE SSN = ?");
-	        preparedStatement.setString(1,phone);   
-	        preparedStatement.setString(2,ssn); 
-	        preparedStatement.executeUpdate();
-      }
-      else if(opt == 2)
-      {
-    	  	System.out.print("Enter the new phone number : ");
-    	  	String address = ob.next();
-	        preparedStatement = connect.prepareStatement("UPDATE Employee SET address = ? WHERE SSN = ?");
-	        preparedStatement.setString(1,address);    
-	        preparedStatement.setString(2,ssn); 
-	        preparedStatement.executeUpdate();
-      }
-        
+    public void UpdatePersonaldetails(String phone,String address) throws SQLException {
+    	System.out.println(address);
+	      if(!phone.isEmpty())
+	      {
+		      	preparedStatement = connect.prepareStatement("UPDATE Employee SET phone = ? WHERE SSN = ?");
+		        preparedStatement.setString(1,phone);   
+		        preparedStatement.setString(2,ssn); 
+		        preparedStatement.executeUpdate();
+	      }
+	      
+	      if(!address.isEmpty())
+	      {
+	    	  System.out.println("HELLJHKHFGKJHGJH");
+		        preparedStatement = connect.prepareStatement("UPDATE Employee SET address = ? WHERE SSN = ?");
+		        preparedStatement.setString(1,address);    
+		        preparedStatement.setString(2,ssn); 
+		        preparedStatement.executeUpdate();
+	      }
     }
     
     
