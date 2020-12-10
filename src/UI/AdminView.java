@@ -1,12 +1,11 @@
-package dbthing;
-//import backend.Owner;
+package project;
+
 import java.awt.EventQueue;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.sql.*;
 
 public class AdminView {
@@ -53,7 +52,7 @@ public class AdminView {
     public void init() throws Exception{
         try {
           Class.forName("org.postgresql.Driver");
-          connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem","postgres", "jimbalakadibamba");
+          connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem","postgres", "password");
           System.out.println("Connected to database");
           statement = connect.createStatement();
         }
@@ -278,6 +277,7 @@ public class AdminView {
 		panel.add(btnProfitability);
 		
 		JButton viewBranchBtn = new JButton("View Branch Details");		
+		viewBranchBtn.setBackground(Color.WHITE);
 		viewBranchBtn.setFont(new Font("Tahoma", Font.PLAIN, 10));		
 		viewBranchBtn.addActionListener(new ActionListener() {		
 			public void actionPerformed(ActionEvent e) 		
@@ -1084,37 +1084,37 @@ public class AdminView {
 			
 			JLabel hid_viwbrch=new JLabel();	
 			hid_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			hid_viwbrch.setBounds(6, 250, 138, 20);	
+			hid_viwbrch.setBounds(6, 250, 700, 20);	
 			branchdet.add(hid_viwbrch);	
 				
 			JLabel hname_viwbrch=new JLabel();	
 			hname_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			hname_viwbrch.setBounds(6, 290, 138, 20);	
+			hname_viwbrch.setBounds(6, 290, 700, 20);	
 			branchdet.add(hname_viwbrch);	
 				
 			JLabel strtdt_viwbrch=new JLabel();	
 			strtdt_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			strtdt_viwbrch.setBounds(6, 330, 138, 20);	
+			strtdt_viwbrch.setBounds(6, 330, 700, 20);	
 			branchdet.add(strtdt_viwbrch);	
 				
 			JLabel rvnu_viwbrch=new JLabel();	
 			rvnu_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			rvnu_viwbrch.setBounds(6, 370, 138, 20);	
+			rvnu_viwbrch.setBounds(6, 370, 700, 20);	
 			branchdet.add(rvnu_viwbrch);	
 				
 			JLabel expndtr_viwbrch=new JLabel();	
 			expndtr_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			expndtr_viwbrch.setBounds(6, 410, 138, 20);	
+			expndtr_viwbrch.setBounds(6, 410, 700, 20);	
 			branchdet.add(expndtr_viwbrch);	
 				
 			JLabel location_viwbrch=new JLabel();	
 			location_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			location_viwbrch.setBounds(6, 450, 138, 20);	
+			location_viwbrch.setBounds(6, 450, 700, 20);	
 			branchdet.add(location_viwbrch);	
 				
 			JLabel lstmaint_viwbrch=new JLabel();	
 			lstmaint_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			lstmaint_viwbrch.setBounds(6, 490, 138, 20);	
+			lstmaint_viwbrch.setBounds(6, 490, 700, 20);	
 			branchdet.add(lstmaint_viwbrch);
 		    
 		    JButton chk_btn3 = new JButton("View");	
@@ -1162,5 +1162,3 @@ public class AdminView {
 			
 		}
 }
-
-
