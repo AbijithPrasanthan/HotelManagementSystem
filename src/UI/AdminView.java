@@ -43,7 +43,7 @@ public class testpage {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					testpage window = new testpage();
+					AdminView window = new AdminView();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
