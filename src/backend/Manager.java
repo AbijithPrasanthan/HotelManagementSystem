@@ -126,11 +126,13 @@ public class Manager implements Employee{
     
     void UpdateWorkplace() throws SQLException
     {
-      System.out.println("Enter the new hotel's id : ");
-      String hid = ob.next();
-      preparedStatement = connect.prepareStatement("UPDATE HotelEmp SET Hid = ? WHERE SSN = ?");
+    	System.out.println("Enter SSN of employee to be transferred : ");
+    	String s = ob.next();
+    	System.out.println("Enter the new hotel's id : ");
+    	String hid = ob.next();
+    	preparedStatement = connect.prepareStatement("UPDATE HotelEmp SET Hid = ? WHERE SSN = ?");
         preparedStatement.setString(1,hid);   
-        preparedStatement.setString(2,ssn); 
+        preparedStatement.setString(2,s); 
         preparedStatement.executeUpdate();
     }
     
