@@ -110,6 +110,7 @@ public class testpage {
 		label3.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		JButton btnFireEmployee = new JButton("Fire Employee");
+		btnFireEmployee.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnFireEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -122,7 +123,6 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
 			}
 		});
 		btnFireEmployee.setBackground(Color.WHITE);
@@ -131,6 +131,7 @@ public class testpage {
 		
 		
 		JButton btnHireEmployee = new JButton("Hire Employee");
+		btnHireEmployee.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnHireEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -143,7 +144,6 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
 			}
 		});
 		btnHireEmployee.setBackground(Color.WHITE);
@@ -164,11 +164,18 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
 			}
 		});
+		btnCheckMaintenance.setBackground(Color.WHITE);
 		btnCheckMaintenance.setBounds(10, 417, 140, 36);
 		panel.add(btnCheckMaintenance);
+		
+		
+		JButton btnNewButton_3 = new JButton("View Branch Details");
+		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnNewButton_3.setBounds(10, 464, 140, 36);
+		btnNewButton_3.setBackground(Color.WHITE);
+		panel.add(btnNewButton_3);
 		
 		JButton btnUpdateBranchDetails = new JButton("Update Branch Details");
 		btnUpdateBranchDetails.addActionListener(new ActionListener() {
@@ -183,11 +190,11 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
 			}
 		});
 		btnUpdateBranchDetails.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnUpdateBranchDetails.setBounds(10, 511, 140, 36);
+		btnUpdateBranchDetails.setBackground(Color.WHITE);
 		panel.add(btnUpdateBranchDetails);
 		
 		
@@ -204,12 +211,13 @@ public class testpage {
 				updt_branchdet.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
+				
 				//resultSet = statement.executeQuery("SELECT designation,hid FROM EMPLOYEE NATURAK JOIN HOTELEMP")
 			}
 		});
 		btnUpdateOfficialDetails.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnUpdateOfficialDetails.setBounds(10, 558, 140, 36);
+		btnUpdateOfficialDetails.setBackground(Color.WHITE);
 		panel.add(btnUpdateOfficialDetails);
 		
 		JButton btnUpdatePersonalDetails = new JButton("Update Personal Details");
@@ -225,15 +233,16 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_price.setVisible(false);
 				updt_branchdet.setVisible(false);
-				branchdet.setVisible(false);	
 			}
 		});
 		btnUpdatePersonalDetails.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnUpdatePersonalDetails.setBounds(10, 605, 140, 36);
+		btnUpdatePersonalDetails.setBackground(Color.WHITE);
 		panel.add(btnUpdatePersonalDetails);
 		
 		
 		JButton btnUpdatePrices = new JButton("Update Prices");
+		btnUpdatePrices.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnUpdatePrices.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -246,13 +255,14 @@ public class testpage {
 				updt_pers.setVisible(false);
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
-				branchdet.setVisible(false);	
 			}
 		});
 		btnUpdatePrices.setBounds(10, 649, 140, 36);
+		btnUpdatePrices.setBackground(Color.WHITE);
 		panel.add(btnUpdatePrices);
 		
 		JButton btnProfitability = new JButton("Profitability");
+		btnProfitability.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnProfitability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -265,33 +275,11 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
 			}
 		});
 		btnProfitability.setBounds(10, 370, 140, 36);
+		btnProfitability.setBackground(Color.WHITE);
 		panel.add(btnProfitability);
-		
-		
-		JButton viewBranchBtn = new JButton("View Branch Details");	
-		viewBranchBtn.setFont(new Font("Tahoma", Font.PLAIN, 10));	
-		viewBranchBtn.addActionListener(new ActionListener() {	
-			public void actionPerformed(ActionEvent e) 	
-			{	
-				branchdet.setVisible(true);	
-				profit.setVisible(false);	
-				hire_employee.setVisible(false);	
-				fire_employee.setVisible(false);	
-				Update_WkPlce.setVisible(false);	
-				updt_branchdet.setVisible(false);	
-				updt_pers.setVisible(false);	
-				updt_offdt.setVisible(false);	
-				maintenance.setVisible(false);	
-				updt_price.setVisible(false);	
-			}	
-		});	
-			
-		viewBranchBtn.setBounds(10, 464, 140, 36);	
-		panel.add(viewBranchBtn);
 		
 		
 		JPanel panel_1 = new JPanel();
