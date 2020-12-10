@@ -53,8 +53,9 @@ class chef implements Employee
           preparedStatement.setString(2,ssn); 
           preparedStatement.executeUpdate();
       }
-    public void ViewPersonaldetails() throws SQLException
+    public Object[] ViewPersonaldetails() throws SQLException
     {
+    	Object det[] = new Object[10];
     	preparedStatement =connect.prepareStatement("select fname,lname,doj,address,phone from employee where ssn = '"+ssn+"'");  
     	ResultSet rs=preparedStatement.executeQuery(); 
         while(rs.next())
@@ -78,10 +79,12 @@ class chef implements Employee
           	Specialization = rss.getString(1);
             System.out.println("Work Place : " + Specialization);
           }
+          return det;
         
     }
-    public  void ViewOfficialdetails()throws SQLException
+    public  Object[] ViewOfficialdetails()throws SQLException
 	  {
+    	Object[] det = new Object[10];
        	preparedStatement =connect.prepareStatement("select designation,sal from Employee where ssn = '"+ssn+"'");  
     	ResultSet rs=preparedStatement.executeQuery(); 
         while(rs.next())
@@ -98,6 +101,7 @@ class chef implements Employee
           Workplace = rss.getString(1);
           System.out.println("Work Place : " + Workplace);
         }
+        return det;
         
 	  }
     public  Boolean Login()
