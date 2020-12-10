@@ -43,8 +43,6 @@ public class Manager implements Employee{
     }
     
     
-    
-    
     @Override
     public void ViewPersonaldetails() throws SQLException {
       // TODO Auto-generated method stub
@@ -124,10 +122,9 @@ public class Manager implements Employee{
         
     }
     
-    void UpdateWorkplace() throws SQLException
+    
+    void UpdateWorkplace(String s) throws SQLException
     {
-    	System.out.println("Enter SSN of employee to be transferred : ");
-    	String s = ob.next();
     	System.out.println("Enter the new hotel's id : ");
     	String hid = ob.next();
     	preparedStatement = connect.prepareStatement("UPDATE HotelEmp SET Hid = ? WHERE SSN = ?");
@@ -137,9 +134,12 @@ public class Manager implements Employee{
     }
     
     
+    
     void UpdateOfficialdetails() throws SQLException
     {
-      System.out.println("Choose what to update : ");
+    	System.out.println("Enter SSN of employee : ");
+    	String s = ob.next();
+    	System.out.println("Choose what to update : ");
         System.out.println("1. Designation");
         System.out.println("2. Salary");
         System.out.println("3. Workplace");
@@ -150,7 +150,7 @@ public class Manager implements Employee{
           String designation = ob.next();
           preparedStatement = connect.prepareStatement("UPDATE Employee SET designation = ? WHERE SSN = ?");
             preparedStatement.setString(1,designation);    
-            preparedStatement.setString(2,ssn); 
+            preparedStatement.setString(2,s); 
             preparedStatement.executeUpdate();
         }
         else if(choice == 2)
@@ -171,12 +171,12 @@ public class Manager implements Employee{
             System.out.println("Salary : " + sal);
             preparedStatement = connect.prepareStatement("UPDATE Employee SET SAL = ? WHERE SSN = ?");
             preparedStatement.setDouble(1,sal);    
-            preparedStatement.setString(2,ssn); 
+            preparedStatement.setString(2,s); 
             preparedStatement.executeUpdate();
         }
         else if(choice == 3)
         {
-          UpdateWorkplace();
+          UpdateWorkplace(s);
         }
     }
     
@@ -202,6 +202,7 @@ public class Manager implements Employee{
       bonus = Double.valueOf(String.format("%.2f",bonus));
       return bonus;
   }
+    
 
   public static void main(String[] args) throws Exception {
       // TODO Auto-generated method stub
