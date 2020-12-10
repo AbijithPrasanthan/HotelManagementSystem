@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.text.ParseException;
 import java.sql.*;
 
-public class testpage {
+public class AdminView {
 
 	private JFrame frame;
 	private JFrame main_f;
@@ -65,7 +65,7 @@ public class testpage {
       }
 
 	
-	public testpage() throws Exception {
+	public AdminView() throws Exception {
 		init();
 		initialize();
 	}
