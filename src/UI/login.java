@@ -1,7 +1,7 @@
 /*CREATED BY:
  * 
  * ABIJITH PRASANTHAN	(AM.EN.U4CSE19102)
- * ANAND K S 		 	(AM.EN.U4CSE19106)
+ * ANAND K S 		 (AM.EN.U4CSE19106)
  * BHARATH PRATHAP NAIR	(AM.EN.U4CSE19113)
  * GAUTHAM SATHOSH KUMAR(AM.EN.U4CSE19121)
  * 
@@ -41,12 +41,10 @@ public class login
 	public JPasswordField adm_passwordField;
 	private JButton adm_loginbutton;
 	
-	private JFrame seniormanager;//senior manager frame 
-	
-	
-	private JFrame branchmanager;//branch manager frame
-	
-	private JFrame chef; //chef frame 
+	private JFrame seniormanager;//senior manager frame	
+	private JFrame branchmanager;//branch manager frame	
+	private JFrame chef; //chef frame 	
+	private JFrame h_chef;//head chef frame
 
 	private Connection connect = null;
 	private Statement statement = null;
@@ -106,7 +104,9 @@ public class login
 		JLabel Background=new JLabel("",img,JLabel.CENTER);//background
 		Background.setBounds(10, 0, 1350, 840);
 		home.getContentPane().add(Background);
-		//-------------------------------------------------------MAIN LOGIN FRAME-----------------------------------------------------------------------------------------
+		
+		//--------------------------------------------------------MAIN LOGIN FRAME-----------------------------------------------------------------------------------------
+		
 		loginframe = new JFrame();
 		loginframe.setSize(2000,780);
 		loginframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,6 +137,47 @@ public class login
 		
 		loginbutton = new JButton("Login");//login button
 		loginbutton.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		
+		loginbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = loginfield.getText();
+				String eid = new String(passwordField.getPassword());
+				JFrame alert=new JFrame();  
+				try {
+					if(SR_MangerLogin(name,eid)) 		//if the employee is a senior manager,it loads the frame of senior manager.
+					{
+						seniormanager.setVisible(true);
+						loginfield.setVisible(false);
+					}
+					else if(MangerLogin(name,eid))     //if the employee is a manager,it loads the frame of chef.
+					{
+						branchmanager.setVisible(true);
+						loginfield.setVisible(false);
+					}
+					else if(ChefLogin(name,eid))      //if the employee is a chef,it loads the frame of chef.
+					{
+						chef.setVisible(true);
+						loginfield.setVisible(false);
+					}
+					else if(H_ChefLogin(name,eid))  //if the employee is a head chef,it loads the frame of head chef.
+					{
+						h_chef.setVisible(true);
+						loginfield.setVisible(false);
+					}
+					else 
+					{
+						JOptionPane.showMessageDialog(alert,"Invalid Credentials");
+					}
+					
+				} 
+				catch (SQLException e1) 
+				{
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		
 		loginbutton.setBackground(Color.BLACK);
 		loginbutton.setForeground(Color.WHITE);
 		loginbutton.setBounds(643, 518, 196, 39);
@@ -145,13 +186,15 @@ public class login
 		JLabel Background2=new JLabel("",img,JLabel.CENTER);//background
 		Background2.setBounds(10, 0, 1350, 840);
 		loginframe.getContentPane().add(Background2);
+		
 		//--------------------------------------------------------ADMIN LOGIN FRAME----------------------------------------------------------------------------------------
+		
 		adminlogframe = new JFrame();
 		adminlogframe.setSize(2000,780);
 		adminlogframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
-		ImageIcon img =new ImageIcon("C:\\Users\\bhara\\Documents\\documents\\college\\SEM3\\OOPs\\HMS_PROJECT\\src\\TEST//homepage.jpg");//background
+		ImageIcon img2 =new ImageIcon("C:\\Users\\bhara\\Documents\\documents\\college\\SEM3\\OOPs\\HMS_PROJECT\\src\\TEST//homepage.jpg");//background
 		//                           ------------------------------------------------------------------------------------
 		//                           This is the path of the image file stored in your system.this path may vary from system to system.
 		//                           So to get a the proper layout of the image,do go to the src folder of this project and copy the path of homepage.jpg file.
@@ -180,23 +223,32 @@ public class login
 		lblNewLabel.setBounds(584, 292, 212, 14);
 		adminlogframe.getContentPane().add(lblNewLabel);
 		
-		JLabel Background3=new JLabel("",img,JLabel.CENTER);//background
+		JLabel Background3=new JLabel("",img2,JLabel.CENTER);//background
 		Background3.setBounds(10, 0, 1350, 840);
 		adminlogframe.getContentPane().add(Background3);
-		
+		JFrame alert2=new JFrame();  
 		adm_loginbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = adm_loginfield.getText();
 				String eid = new String(adm_passwordField.getPassword());
-				if(AdminLogin(name,eid)) {
-					
-				}
-				else {
-					
+				try {
+					if(AdminLogin(name,eid)) 
+					{
+						Admin.setVisible(true);
+						adminlogframe.setVisible(false);
+					}
+					else 
+					{
+						JOptionPane.showMessageDialog(alert2,"ACCESS DENIED!!"+"\n"+"Access only for Admin.");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 			
 		});
+		
     	
     //----------------------------------------------------------------------Admin's Frame-------------------------------------------------------------------------------------------------------
     		
@@ -367,7 +419,7 @@ public class login
     		seniormanager.getContentPane().add(panel_2);
         
    
-   //--------------------------------------------------------------------Branch Manage Frame------------------------------------------------------------------------------------------------------------ 
+   //--------------------------------------------------------------------Branch Manager Frame------------------------------------------------------------------------------------------------------------ 
     
           
     		branchmanager = new JFrame();//branchmanager frame details
@@ -467,68 +519,139 @@ public class login
     		JPanel title4 = new JPanel();//HEADING PANEL
     		title4.setBounds(167, 32, 1203, 49);
     		title4.setBackground(new Color(0, 0, 0));
-    		chef.getContentPane().add(title);
-    		title.setLayout(null);
+    		chef.getContentPane().add(title4);
+    		title4.setLayout(null);
     		
     		JLabel restaurantname3 = new JLabel("RedFork  Restaurant -CHEF");//RESTAURANT NAME
     		restaurantname3.setFont(new Font("Segoe Script", Font.BOLD, 20));
     		restaurantname3.setForeground(Color.WHITE);
     		restaurantname3.setBounds(105, 11, 542, 38);
-    		title.add(restaurantname3);
+    		title4.add(restaurantname3);
     		
     		BACK = new JButton("BACK");//BACK BUTTON
     		BACK.setForeground(Color.WHITE);
     		BACK.setBackground(Color.BLACK);
     		BACK.setFont(new Font("Times New Roman", Font.PLAIN, 15));
     		BACK.setBounds(1075, 11, 89, 23);
-    		title.add(BACK);
+    		title4.add(BACK);
     		
     		JButton ViewOfficialDet3 = new JButton("Update Personal Details");//View Official Details Buttons
     		ViewOfficialDet3.setBackground(Color.WHITE);
     		ViewOfficialDet3.setBounds(10, 271, 153, 36);
     		sidebar3.add(ViewOfficialDet3);
     		
-    		JButton UpdatePrices3 = new JButton("Update Prices");//Update Prices Button
-    		UpdatePrices3.setBackground(Color.WHITE);
-    		UpdatePrices3.setBounds(10, 318, 153, 36);
-    		sidebar3.add(UpdatePrices3);
+    		JButton UpdateDet3 = new JButton("View Official Details");//Update Official Details Button
+    		UpdateDet3.setBackground(Color.WHITE);
+    		UpdateDet3.setBounds(10, 318, 153, 36);
+    		sidebar3.add(UpdateDet3);
     		
-    		JButton Profitability3 = new JButton("Profitability");//Profitability Button
-    		Profitability3.setBackground(Color.WHITE);
-    		Profitability3.setBounds(10, 365, 153, 36);
-    		sidebar3.add(Profitability3);
+    		JButton ViewBranchDet3 = new JButton("View Branch Details");//View Branch Details Button
+    		ViewBranchDet3.setBackground(Color.WHITE);
+    		ViewBranchDet3.setBounds(10, 224, 153, 36);
+    		sidebar3.add(ViewBranchDet3);
     		
-    		JButton CheckMaint2 = new JButton("Check Maintenance ");//Check Maintenance Button
-    		CheckMaint2.setBackground(Color.WHITE);
-    		CheckMaint2.setBounds(10, 412, 153, 36);
-    		sidebar.add(CheckMaint2);
-    		
-    		JButton UpdateDet2 = new JButton("Update Official Details");//Update Official Details Button
-    		UpdateDet2.setBackground(Color.WHITE);
-    		UpdateDet2.setBounds(10, 459, 153, 36);
-    		sidebar3.add(UpdateDet2);
-    		
-    		JButton btnViewBranchDet = new JButton("View Branch Details");
-    		btnViewBranchDet.setBackground(Color.WHITE);
-    		btnViewBranchDet.setBounds(10, 224, 153, 36);
-    		sidebar.add(btnViewBranchDet);
+    		JButton ViewMenu = new JButton("View Menu");//View Menu button
+    		ViewMenu.setBackground(Color.WHITE);
+    		ViewMenu.setBounds(10, 365, 153, 36);
+    		sidebar3.add(ViewMenu);
     		
     		
     		Panel panel_5 = new Panel();
     		panel_5.setBackground(new Color(255, 255, 255));
     		panel_5.setBounds(199, 118, 1150, 571);
 			chef.getContentPane().add(panel_5);
+			
+		//----------------------------------------------------------------HEAD CHEF FRAME-------------------------------------------------------------------------------------------------	
+			
+			h_chef = new JFrame();//h_chef frame details
+			h_chef.getContentPane().setFont(new Font("Adobe Fangsong Std R", Font.BOLD, 18));
+			h_chef.getContentPane().setBackground(new Color(220, 20, 60));
+			h_chef.setBackground(Color.DARK_GRAY);
+			h_chef.setSize(2000,780);
+			h_chef.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			
+			
+			i = new ImageIcon("C:\\Users\\bhara\\Documents\\documents\\college\\SEM3\\OOPs\\sample/the-red-cafe.png");//logo
+			h_chef.getContentPane().setLayout(null);
+			
+			
+			JPanel sidebar4 = new JPanel();//SIDE PANEL
+			sidebar4.setBounds(0, 0, 173, 749);
+			sidebar4.setBackground(new Color(0, 0, 0));
+			h_chef.getContentPane().add(sidebar4);
+			sidebar4.setLayout(null);
+			JLabel label7= new JLabel(i);
+			label7.setBounds(10, 11, 140, 143);
+			sidebar4.add(label3);
+			label7.setHorizontalAlignment(SwingConstants.LEFT);
+			
+			JPanel title5 = new JPanel();//HEADING PANEL
+			title5.setBounds(167, 32, 1203, 49);
+			title5.setBackground(new Color(0, 0, 0));
+			h_chef.getContentPane().add(title5);
+			title5.setLayout(null);
+			
+			JLabel restaurantname4 = new JLabel("RedFork  Restaurant -HEAD CHEF");//RESTAURANT NAME
+			restaurantname4.setFont(new Font("Segoe Script", Font.BOLD, 20));
+			restaurantname4.setForeground(Color.WHITE);
+			restaurantname4.setBounds(105, 11, 542, 38);
+			title5.add(restaurantname4);
+			
+			BACK = new JButton("BACK");//BACK BUTTON
+			BACK.setForeground(Color.WHITE);
+			BACK.setBackground(Color.BLACK);
+			BACK.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+			BACK.setBounds(1075, 11, 89, 23);
+			title5.add(BACK);
+			
+			JButton ViewOfficialDet4 = new JButton("Update Personal Details");//View Official Details Buttons
+			ViewOfficialDet4.setBackground(Color.WHITE);
+			ViewOfficialDet4.setBounds(10, 271, 153, 36);
+			sidebar4.add(ViewOfficialDet4);
+			
+			JButton UpdateDet4 = new JButton("View Official Details");//Update Official Details Button
+			UpdateDet.setBackground(Color.WHITE);
+			UpdateDet.setBounds(10, 318, 153, 36);
+			sidebar4.add(UpdateDet);
+			
+			JButton ViewBranchDet4 = new JButton("View Branch Details");//View Branch Details Button
+			ViewBranchDet.setBackground(Color.WHITE);
+			ViewBranchDet.setBounds(10, 224, 153, 36);
+			sidebar4.add(ViewBranchDet);
+			
+			JButton ViewMenu4 = new JButton("View Menu");//View Menu button
+			ViewMenu.setBackground(Color.WHITE);
+			ViewMenu.setBounds(10, 365, 153, 36);
+			sidebar4.add(ViewMenu);
+			
+			JButton UpdateDishes = new JButton("Update Dishes");//Update dishes button
+			UpdateDishes.setBackground(Color.WHITE);
+			UpdateDishes.setBounds(10, 412, 153, 36);
+			sidebar4.add(UpdateDishes);
+			
+			Panel panel_6 = new Panel();
+			panel_6.setBackground(new Color(255, 255, 255));
+			panel_6.setBounds(199, 118, 1150, 571);
+			h_chef.getContentPane().add(panel_6);
+			
+		
+		//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     }
 	
-	public boolean AdminLogin(String name,String password) throws SQLException{
+	public boolean AdminLogin(String name,String password) throws SQLException// function to check login credentials of admin.
+	{
 		String sql = "SELECT ssn,designation FROM EMPLOYEE WHERE fname = '" + name.toUpperCase() + "'";
 		resultSet = statement.executeQuery(sql);
 		
-		while(resultSet.next()) {
+		while(resultSet.next()) 
+		{
 			System.out.println(resultSet.getString("designation"));
-			if(resultSet.getString("designation").equals("ADMIN")) {
+			if(resultSet.getString("designation").equals("ADMIN")) 
+			{
 				System.out.println("Check 1 passed");
-				if(resultSet.getString("ssn").equals(password)) {
+				if(resultSet.getString("ssn").equals(password))
+				{
 					System.out.println("Check 2 passed");
 					return true;
 				}
@@ -537,6 +660,100 @@ public class login
 		return false;
 
     }
+	
+	
+	public boolean SR_MangerLogin(String name,String password) throws SQLException// function to check login credentials of senior manger.
+	{
+		String sql = "SELECT ssn,designation FROM EMPLOYEE WHERE fname = '" + name.toUpperCase() + "'";
+		resultSet = statement.executeQuery(sql);
+		
+		while(resultSet.next()) 
+		{
+			System.out.println(resultSet.getString("designation"));
+			if(resultSet.getString("designation").equals("SR_MANAGER")) 
+			{
+				System.out.println("Check 1 passed");
+				if(resultSet.getString("ssn").equals(password)) 
+				{
+					System.out.println("Check 2 passed");
+					return true;
+				}
+			}
+		}
+		return false;
+
+    }
+	
+	public boolean MangerLogin(String name,String password) throws SQLException// function to check login credentials of  manger.
+	{
+		String sql = "SELECT ssn,designation FROM EMPLOYEE WHERE fname = '" + name.toUpperCase() + "'";
+		resultSet = statement.executeQuery(sql);
+		
+		while(resultSet.next()) 
+		{
+			System.out.println(resultSet.getString("designation"));
+			if(resultSet.getString("designation").equals("MANAGER")) 
+			{
+				System.out.println("Check 1 passed");
+				if(resultSet.getString("ssn").equals(password)) 
+				{
+					System.out.println("Check 2 passed");
+					return true;
+				}
+			}
+		}
+		return false;
+
+    }
+	
+	public boolean ChefLogin(String name,String password) throws SQLException// function to check login credentials of chef.
+	{
+		String sql = "SELECT ssn,designation FROM EMPLOYEE WHERE fname = '" + name.toUpperCase() + "'";
+		resultSet = statement.executeQuery(sql);
+		
+		while(resultSet.next()) 
+		{
+			System.out.println(resultSet.getString("designation"));
+			if(resultSet.getString("designation").equals("CHEF")) 
+			{
+				System.out.println("Check 1 passed");
+				if(resultSet.getString("ssn").equals(password)) 
+				{
+					System.out.println("Check 2 passed");
+					return true;
+				}
+			}
+		}
+		return false;
+
+    }
+	
+	
+	public boolean H_ChefLogin(String name,String password) throws SQLException// function to check login credentials of head chef.
+	{
+		String sql = "SELECT ssn,designation FROM EMPLOYEE WHERE fname = '" + name.toUpperCase() + "'";
+		resultSet = statement.executeQuery(sql);
+		
+		while(resultSet.next()) 
+		{
+			System.out.println(resultSet.getString("designation"));
+			if(resultSet.getString("designation").equals("H_CHEF")) 
+			{
+				System.out.println("Check 1 passed");
+				if(resultSet.getString("ssn").equals(password)) 
+				{
+					System.out.println("Check 2 passed");
+					return true;
+				}
+			}
+		}
+		return false;
+
+    }
+	
+	
+	
+	
     public static void main(String[] args) 
 	{
 		 new login();   

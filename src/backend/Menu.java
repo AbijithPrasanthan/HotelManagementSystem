@@ -1,25 +1,24 @@
 package demoDB;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 public class Menu 
 {
 	
 	private Connection connect = null;
-	private Statement statement = null;
-    private ResultSet resultSet = null;
+	private PreparedStatement preparedStatement = null;
+	static Scanner ob = new Scanner(System.in);
     public void init() throws Exception
     {
     	try {
     		Class.forName("org.postgresql.Driver");
     		connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem",
-                    "batch", "gautham123");
+                    "postgres", "gautham");
     		
     		connect.createStatement();
     	}
@@ -30,36 +29,31 @@ public class Menu
     	}
     }
     
-    public void ViewMenu(String Mid) throws SQLException
-    {
-    	String query = "SELECT Availdishes FROM Menu WHERE Menuid ="+Mid;
-    	
-    	resultSet = statement.executeQuery(query);
-    	Array array = resultSet.getArray("Availdishes");
-        String[] ad = (String[]) array.getArray();
-    	System.out.println();
-    	
+    public void ViewMenu() throws SQLException
+    {   
+    	System.out.println("Enter the Menuid of the menu to be viewed ");
+		String Mid =ob.next();
+		
+    	preparedStatement =connect.prepareStatement("select Dname from partof natural join dish where mid ='"+Mid+"'");  
+    	ResultSet rs=preparedStatement.executeQuery(); 
     	System.out.println("    Menu     ");
-    	for(int i=0;i<ad.length;i++)
-    	{
-    		System.out.println("/t"+ (i+1) +"/t"+ ad[i]  );
-    		
-    	}   	
+    	int i=1;
+    	while(rs.next())
+    	{  
+    		String dish = rs.getString(1);
+    		System.out.println("\t"+ i +"\t"+ dish ); 
+    		i++;
+    	}
+    	
 
     	
     }
     public static void main(String[] args) throws Exception 
     {
     		Menu me = new Menu();
-    		Scanner sc = new Scanner(System.in);
+ 
     		me.init();
-    		
-			System.out.println("Enter the Menuid of the menu to be viewed ");
-			String menuid =sc.nextLine();
-			
-			me.ViewMenu(menuid);
-			sc.close();
-					
+			me.ViewMenu();
     }
 	
 }

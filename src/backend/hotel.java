@@ -97,7 +97,32 @@ public class hotel {
 	    }
 	    return false;
 	}
-	
+	void UpdateOfficialdetails(String Hid) throws SQLException
+	    {
+	    System.out.println("Choose what to update : ");
+		System.out.println("1. Revenue");
+		System.out.println("2. Expenditure");
+		int choice = ob.nextInt();
+		if(choice == 1)
+		{
+		  System.out.println("Enter new Revenue to be updated ");  
+		  Double rev = ob.nextDouble();
+		  preparedStatement = connect.prepareStatement("UPDATE hotel SET revenue = ? WHERE hid = ?");
+		    preparedStatement.setDouble(1,rev);    
+		    preparedStatement.setString(2,Hid); 
+		    preparedStatement.executeUpdate();
+		}
+		else if(choice == 2)
+		{
+		  System.out.println("Enter new Expenditure to be updated ");
+		  Double exe = ob.nextDouble();
+		  preparedStatement = connect.prepareStatement("UPDATE hotel SET expenditure = ? WHERE hid = ?");
+		    preparedStatement.setDouble(1,exe);    
+		    preparedStatement.setString(2,Hid); 
+		    preparedStatement.executeUpdate();
+		}
+
+	    }
 	
 	
 	public static void main(String[] args) throws Exception{
