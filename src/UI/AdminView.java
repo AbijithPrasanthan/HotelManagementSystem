@@ -1,15 +1,14 @@
-package backend;
-//import backend.Owner;
+package project;
+
 import java.awt.EventQueue;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.sql.*;
 
-public class testpage {
+public class AdminView {
 
 	private JFrame frame;
 	private JFrame main_f;
@@ -36,15 +35,12 @@ public class testpage {
 	hotel hobj;
 	Manager mobj;
 	chef cobj;
-	
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					testpage window = new testpage();
+					AdminView window = new AdminView();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +52,7 @@ public class testpage {
     public void init() throws Exception{
         try {
           Class.forName("org.postgresql.Driver");
-          connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbms","postgres", "password");
+          connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem","postgres", "password");
           System.out.println("Connected to database");
           statement = connect.createStatement();
         }
@@ -67,15 +63,11 @@ public class testpage {
       }
 
 	
-	public testpage() throws Exception {
+	public AdminView() throws Exception {
 		init();
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 * @throws Exception 
-	 */
 	private void initialize() throws Exception {
 		
 		ob = new Owner();
@@ -110,6 +102,7 @@ public class testpage {
 		label3.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		JButton btnFireEmployee = new JButton("Fire Employee");
+		btnFireEmployee.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnFireEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -122,7 +115,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
+				branchdet.setVisible(false);
 			}
 		});
 		btnFireEmployee.setBackground(Color.WHITE);
@@ -131,6 +124,7 @@ public class testpage {
 		
 		
 		JButton btnHireEmployee = new JButton("Hire Employee");
+		btnHireEmployee.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnHireEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -143,7 +137,7 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
+				branchdet.setVisible(false);
 			}
 		});
 		btnHireEmployee.setBackground(Color.WHITE);
@@ -164,11 +158,14 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
+				branchdet.setVisible(false);
 			}
 		});
+		btnCheckMaintenance.setBackground(Color.WHITE);
 		btnCheckMaintenance.setBounds(10, 417, 140, 36);
 		panel.add(btnCheckMaintenance);
+		
+		
 		
 		JButton btnUpdateBranchDetails = new JButton("Update Branch Details");
 		btnUpdateBranchDetails.addActionListener(new ActionListener() {
@@ -183,11 +180,12 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdateBranchDetails.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnUpdateBranchDetails.setBounds(10, 511, 140, 36);
+		btnUpdateBranchDetails.setBackground(Color.WHITE);
 		panel.add(btnUpdateBranchDetails);
 		
 		
@@ -204,12 +202,14 @@ public class testpage {
 				updt_branchdet.setVisible(false);
 				updt_pers.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
+				branchdet.setVisible(false);
+				
 				//resultSet = statement.executeQuery("SELECT designation,hid FROM EMPLOYEE NATURAK JOIN HOTELEMP")
 			}
 		});
 		btnUpdateOfficialDetails.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnUpdateOfficialDetails.setBounds(10, 558, 140, 36);
+		btnUpdateOfficialDetails.setBackground(Color.WHITE);
 		panel.add(btnUpdateOfficialDetails);
 		
 		JButton btnUpdatePersonalDetails = new JButton("Update Personal Details");
@@ -225,15 +225,17 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				updt_price.setVisible(false);
 				updt_branchdet.setVisible(false);
-				branchdet.setVisible(false);	
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdatePersonalDetails.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnUpdatePersonalDetails.setBounds(10, 605, 140, 36);
+		btnUpdatePersonalDetails.setBackground(Color.WHITE);
 		panel.add(btnUpdatePersonalDetails);
 		
 		
 		JButton btnUpdatePrices = new JButton("Update Prices");
+		btnUpdatePrices.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnUpdatePrices.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -246,13 +248,15 @@ public class testpage {
 				updt_pers.setVisible(false);
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
-				branchdet.setVisible(false);	
+				branchdet.setVisible(false);
 			}
 		});
 		btnUpdatePrices.setBounds(10, 649, 140, 36);
+		btnUpdatePrices.setBackground(Color.WHITE);
 		panel.add(btnUpdatePrices);
 		
 		JButton btnProfitability = new JButton("Profitability");
+		btnProfitability.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnProfitability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -265,32 +269,33 @@ public class testpage {
 				updt_offdt.setVisible(false);
 				maintenance.setVisible(false);
 				updt_price.setVisible(false);
-				branchdet.setVisible(false);	
+				branchdet.setVisible(false);
 			}
 		});
 		btnProfitability.setBounds(10, 370, 140, 36);
+		btnProfitability.setBackground(Color.WHITE);
 		panel.add(btnProfitability);
 		
-		
-		JButton viewBranchBtn = new JButton("View Branch Details");	
-		viewBranchBtn.setFont(new Font("Tahoma", Font.PLAIN, 10));	
-		viewBranchBtn.addActionListener(new ActionListener() {	
-			public void actionPerformed(ActionEvent e) 	
-			{	
-				branchdet.setVisible(true);	
-				profit.setVisible(false);	
-				hire_employee.setVisible(false);	
-				fire_employee.setVisible(false);	
-				Update_WkPlce.setVisible(false);	
-				updt_branchdet.setVisible(false);	
-				updt_pers.setVisible(false);	
-				updt_offdt.setVisible(false);	
-				maintenance.setVisible(false);	
-				updt_price.setVisible(false);	
-			}	
-		});	
-			
-		viewBranchBtn.setBounds(10, 464, 140, 36);	
+		JButton viewBranchBtn = new JButton("View Branch Details");		
+		viewBranchBtn.setBackground(Color.WHITE);
+		viewBranchBtn.setFont(new Font("Tahoma", Font.PLAIN, 10));		
+		viewBranchBtn.addActionListener(new ActionListener() {		
+			public void actionPerformed(ActionEvent e) 		
+			{		
+				branchdet.setVisible(true);		
+				profit.setVisible(false);		
+				hire_employee.setVisible(false);		
+				fire_employee.setVisible(false);		
+				Update_WkPlce.setVisible(false);		
+				updt_branchdet.setVisible(false);		
+				updt_pers.setVisible(false);		
+				updt_offdt.setVisible(false);		
+				maintenance.setVisible(false);		
+				updt_price.setVisible(false);		
+			}		
+		});		
+				
+		viewBranchBtn.setBounds(10, 464, 140, 36);		
 		panel.add(viewBranchBtn);
 		
 		
@@ -1079,37 +1084,37 @@ public class testpage {
 			
 			JLabel hid_viwbrch=new JLabel();	
 			hid_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			hid_viwbrch.setBounds(6, 250, 138, 20);	
+			hid_viwbrch.setBounds(6, 250, 700, 20);	
 			branchdet.add(hid_viwbrch);	
 				
 			JLabel hname_viwbrch=new JLabel();	
 			hname_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			hname_viwbrch.setBounds(6, 290, 138, 20);	
+			hname_viwbrch.setBounds(6, 290, 700, 20);	
 			branchdet.add(hname_viwbrch);	
 				
 			JLabel strtdt_viwbrch=new JLabel();	
 			strtdt_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			strtdt_viwbrch.setBounds(6, 330, 138, 20);	
+			strtdt_viwbrch.setBounds(6, 330, 700, 20);	
 			branchdet.add(strtdt_viwbrch);	
 				
 			JLabel rvnu_viwbrch=new JLabel();	
 			rvnu_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			rvnu_viwbrch.setBounds(6, 370, 138, 20);	
+			rvnu_viwbrch.setBounds(6, 370, 700, 20);	
 			branchdet.add(rvnu_viwbrch);	
 				
 			JLabel expndtr_viwbrch=new JLabel();	
 			expndtr_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			expndtr_viwbrch.setBounds(6, 410, 138, 20);	
+			expndtr_viwbrch.setBounds(6, 410, 700, 20);	
 			branchdet.add(expndtr_viwbrch);	
 				
 			JLabel location_viwbrch=new JLabel();	
 			location_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			location_viwbrch.setBounds(6, 450, 138, 20);	
+			location_viwbrch.setBounds(6, 450, 700, 20);	
 			branchdet.add(location_viwbrch);	
 				
 			JLabel lstmaint_viwbrch=new JLabel();	
 			lstmaint_viwbrch.setFont(new Font("Times New Roman", Font.PLAIN, 16));	
-			lstmaint_viwbrch.setBounds(6, 490, 138, 20);	
+			lstmaint_viwbrch.setBounds(6, 490, 700, 20);	
 			branchdet.add(lstmaint_viwbrch);
 		    
 		    JButton chk_btn3 = new JButton("View");	
