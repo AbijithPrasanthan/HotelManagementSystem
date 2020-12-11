@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-class chef implements Employee
+public class chef implements Employee
 {
 	String ssn;
     String Fname;
@@ -110,10 +110,6 @@ class chef implements Employee
         return det;
         
 	  }
-    public  Boolean Login()
-    {
-    	return true;
-    }
 	public  void UpdatePersonaldetails(String phone, String address)throws SQLException
 	{
 		if(!phone.isEmpty())

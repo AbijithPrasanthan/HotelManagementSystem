@@ -159,16 +159,4 @@ public class selectHotel {
         contents.add(select);
     }
 
-    public static void main(String[] args) throws Exception {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    selectHotel window = new selectHotel();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 }
