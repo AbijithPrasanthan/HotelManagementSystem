@@ -17,11 +17,13 @@ public class customer{
 	String HName;
 	int orderWater;
 	int count;
+	double amt;
 	
 	customer() throws Exception
 	{
 		orderWater = 0;
 		count = 0;
+		amt = 0.0;
 		orderedDishes = new String[10];
 		orderedQuantity = new int[10];
 	}
@@ -44,36 +46,47 @@ public class customer{
     	}
     }
     
-    public void orderDishes(ArrayList<String> dishes, ArrayList<Integer> quan) {
+    public void orderDishes(ArrayList<String> dishes, ArrayList<Integer> quan,int waterNo) {
     	for(int i=0;i<dishes.size();i+=2) {
     		orderedDishes[i] = dishes.get(i);
     		orderedQuantity[i] = quan.get(i);
     	}
-    		
+    		orderWater = waterNo;
     		count += 1;
     }
-	
-	public void ViewAndPayBill() throws SQLException {
-		double amt = 0;
-		double disc = 0.0;			
+    
+    public double calBill() throws SQLException {
+		double disc = 0.0;	
+		
 		if(isWeekend()) {
 			disc += 0.2;
 		}
 		
-		for(int i=0;i<orderedDishes.length;i+=2) {
+    	for(int i=0;i<orderedDishes.length;i+=2) {
 			resultSet = statement.executeQuery("select price from dish where dname = '" + (String)orderedDishes[i] + "'");
 			while(resultSet.next()) {
 				amt += (resultSet.getDouble("price")) * (int)orderedQuantity[i];                                    // Added orderedQuantity
 			}
 		}
-		
-		amt += orderWater * 20;
-		amt -= resultSet.getDouble("price")*disc;
+    	
+    	amt += orderWater * 20;
+		amt -= amt*disc;
 		amt = BulkorderPrice(amt);
-		preparedStatement = connect.prepareStatement("UPDATE Hotel SET Revenue = (Revenue + ?) WHERE hname = ?");
-        preparedStatement.setDouble(1,amt);   
-        preparedStatement.setString(2,HName); 
-        preparedStatement.executeUpdate();
+		
+		return amt;
+    }
+	
+	public boolean PayBill() throws Exception {
+		try {
+			preparedStatement = connect.prepareStatement("UPDATE Hotel SET Revenue = (Revenue + ?) WHERE hname = ?");
+	        preparedStatement.setDouble(1,amt);   
+	        preparedStatement.setString(2,HName); 
+	        preparedStatement.executeUpdate();
+	        return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
 	}
 	
 	public boolean isWeekend() {
