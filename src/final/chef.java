@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-class chef implements Employee
+public class chef implements Employee
 {
 	String ssn;
     String Fname;
