@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -198,6 +199,16 @@ public class orderDishes {
         table.addColumn("count");
         insTable.setBounds(220, 322, 393, 135);
         contents2.add(insTable);
+        
+        JPanel bottles = new JPanel(); //water bottles pannel
+        bottles.setLayout(null);
+        bottles.setBounds(10, 33, 1115, 49);
+        contents2.add(bottles);
+
+        JTextField no_of_bottles = new JTextField("0"); //textfield of number of bottles.
+        no_of_bottles.setColumns(10);
+        no_of_bottles.setBounds(393, 10, 86, 20);
+        bottles.add(no_of_bottles);
 
         AddItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -206,8 +217,10 @@ public class orderDishes {
 
                 int dishCount = Integer.parseInt(quantity.getText());
                 quan.add(dishCount);
-
-                addRow(dishSelected, dishCount);
+                
+                int waterNo = Integer.parseInt(no_of_bottles.getText());
+                
+                addRow(dishSelected, dishCount,waterNo);
             }
         });
 
@@ -221,6 +234,18 @@ public class orderDishes {
         PlaceOrder.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         PlaceOrder.setBounds(873, 78, 85, 22);
         placeorder.add(PlaceOrder);
+        
+        PlaceOrder.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		menu2.setVisible(false);
+        		try {
+					new viewandpay(cobj);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+        	}
+        });
 
         JLabel lblNewLabel = new JLabel("Quantity:");
         lblNewLabel.setBounds(479, 288, 70, 14);
@@ -230,20 +255,10 @@ public class orderDishes {
 
         System.out.println(HName);
 
-        JPanel bottles = new JPanel(); //water bottles pannel
-        bottles.setLayout(null);
-        bottles.setBounds(10, 33, 1115, 49);
-        contents2.add(bottles);
-
         JButton plus = new JButton("+"); //plus button
         plus.setBounds(500, 9, 41, 23);
         bottles.add(plus);
 
-
-        JTextField no_of_bottles = new JTextField("0"); //textfield of number of bottles.
-        no_of_bottles.setColumns(10);
-        no_of_bottles.setBounds(393, 10, 86, 20);
-        bottles.add(no_of_bottles);
 
         plus.addActionListener(new ActionListener() { // button action of plus button.
             public void actionPerformed(ActionEvent e) {
@@ -287,7 +302,7 @@ public class orderDishes {
         }
     }
 
-    public void addRow(String dishSelected, int dishCount) {
+    public void addRow(String dishSelected, int dishCount,int waterNo) {
     	result = new Object[10];
     	ordered.add(dishSelected);
         quan.add(dishCount);
@@ -297,6 +312,6 @@ public class orderDishes {
             dishCount
         });
 
-        cobj.orderDishes(ordered,quan);
+        cobj.orderDishes(ordered,quan,waterNo);
     }
 }

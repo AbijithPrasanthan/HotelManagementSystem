@@ -1,9 +1,12 @@
+package backend;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,38 +23,26 @@ public class viewandpay {
 	private JFrame viewpay;
 	
 	JPanel add_dish_hcf;
+	customer cusObj;
 
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					viewandpay window = new viewandpay();
-					window.viewpay.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-
-	public viewandpay() {
+	public viewandpay(customer obj) throws SQLException {
+		cusObj = obj;
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws SQLException 
 	 */
-	private void initialize()
+	private void initialize() throws SQLException
 	{
 		viewpay = new JFrame();
-		viewpay.setSize(2000,780);
+		viewpay.setSize(2000, 1000);
 		viewpay.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		viewpay.getContentPane().setFont(new Font("Adobe Fangsong Std R", Font.BOLD, 18));
 		viewpay.getContentPane().setBackground(new Color(220, 20, 60));
 		viewpay.setBackground(Color.DARK_GRAY);
-		
+		viewpay.setVisible(true);
 		
 		
 		
@@ -106,12 +97,44 @@ public class viewandpay {
 		ordrd_dshs_lbl.setBounds(32, 11, 162, 21);
 		ordrd_dshs.add(ordrd_dshs_lbl);
 		
+		JLabel slno_lbl = new JLabel("Slno:");
+		slno_lbl.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		slno_lbl.setBounds(50, 53, 800, 20);
+		ordrd_dshs.add(slno_lbl);
+		
+		JLabel dname_lbl = new JLabel("Dish Name:");
+		dname_lbl.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		dname_lbl.setBounds(230, 53, 800, 20);
+		ordrd_dshs.add(dname_lbl);
+		
+		JLabel dprice_lbl = new JLabel("Quantity:");
+		dprice_lbl.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		dprice_lbl.setBounds(420, 53, 800, 20);
+		ordrd_dshs.add(dprice_lbl);
+		
+		Object[][] data = new Object[10][10];
+		String[] columns = new String[] {"Slno.", "Dish Name", "Quantity"};
+		int count = 0;
+		for(int i1=0;i1<cusObj.orderedDishes.length;i1++) {
+			if(!(cusObj.orderedDishes[i1] == null)) {
+				data[i1][0] = count + 1;
+				data[i1][1] = cusObj.orderedDishes[i1];
+				data[i1][2] = cusObj.orderedQuantity[i1];
+				count += 1;
+			}
+		}
+		
+		JTable table = new JTable(data, columns);
+		table.setBounds(50, 80, 550, 100);
+		
+		ordrd_dshs.add(table);
+		
 		JPanel totl_amnt = new JPanel();//total amount panel
 		totl_amnt.setBounds(83, 354, 1017, 48);
 		panel_cust.add(totl_amnt);
 		totl_amnt.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("TOTAL AMOUNT :");//total amount label
+		JLabel lblNewLabel_1 = new JLabel("TOTAL AMOUNT :" + cusObj.calBill());//total amount label
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 22));
 		lblNewLabel_1.setBounds(73, 11, 351, 26);
 		totl_amnt.add(lblNewLabel_1);
@@ -122,7 +145,18 @@ public class viewandpay {
 		paybill_btn.addActionListener(new ActionListener() {//pay bill button action
 			public void actionPerformed(ActionEvent e)
 			{
-				JOptionPane.showMessageDialog(alert,"PAYMENT SUCCESSFUL");
+				try {
+					if(cusObj.PayBill()) {
+						JOptionPane.showMessageDialog(alert,"PAYMENT SUCCESSFUL");
+					}
+					else {
+						JOptionPane.showMessageDialog(alert,"PAYMENT FAILED");
+
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		paybill_btn.setForeground(new Color(255, 255, 255));
@@ -130,11 +164,8 @@ public class viewandpay {
 		paybill_btn.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		paybill_btn.setBounds(911, 479, 189, 41);
 		panel_cust.add(paybill_btn);
-		
-		
-		
-
 			
 	}
 
 }
+
