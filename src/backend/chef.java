@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 class chef implements Employee
@@ -28,8 +29,8 @@ class chef implements Employee
     {
     	try {
     		Class.forName("org.postgresql.Driver");
-    		connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem",
-                    "postgres", "gautham");
+    		connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbms",
+                    "postgres", "password");
     		
     		connect.createStatement();
     	}
@@ -65,12 +66,11 @@ class chef implements Employee
           Date = rs.getDate(3);
           Address = rs.getString(4);
           Phone = rs.getString(5);
-          System.out.println("Social Security Number : " + ssn);
-          System.out.println("First Name : " + Fname);
-          System.out.println("Last Name : " + Lname);
-          System.out.println("Date : " + Date);
-          System.out.println("Address : "+Address);
-          System.out.println("Phone number : "+Phone);
+          det[0] = Fname;
+          det[1] = Lname;
+          det[2] = Date;
+          det[3] = Address;
+          det[4] = Phone;
         }
           preparedStatement =connect.prepareStatement("select speciality from chef where ssn = '"+ssn+"'");  
       	  ResultSet rss=preparedStatement.executeQuery();
@@ -85,21 +85,27 @@ class chef implements Employee
     public  Object[] ViewOfficialdetails()throws SQLException
 	  {
     	Object[] det = new Object[10];
-       	preparedStatement =connect.prepareStatement("select designation,sal from Employee where ssn = '"+ssn+"'");  
+       	preparedStatement =connect.prepareStatement("select ssn,designation,sal,speciality from Employee natural join chef where ssn = '"+ssn+"'");  
     	ResultSet rs=preparedStatement.executeQuery(); 
         while(rs.next())
         {
-          Designation = rs.getString(1);
-          Salary = rs.getDouble(2);
-          System.out.println("Designation : " + Designation);
-          System.out.println("Salary : " + Salary);
+          String SSN = rs.getString("ssn");
+          Designation = rs.getString("designation");
+          Salary = rs.getDouble("sal");
+          
+          det[0] = SSN;
+          det[1] = Designation;
+          det[2] = Salary;
+          det[3] = rs.getString("speciality");
         }  
+        
+        
         preparedStatement =connect.prepareStatement("select hname from Hotelemp NATURAL JOIN Hotel where ssn = '"+ssn+"'");  
     	ResultSet rss=preparedStatement.executeQuery(); 
         while(rss.next())
         {
           Workplace = rss.getString(1);
-          System.out.println("Work Place : " + Workplace);
+          det[4] = Workplace;
         }
         return det;
         
@@ -117,7 +123,7 @@ class chef implements Employee
 		        preparedStatement.setString(2,ssn); 
 		        preparedStatement.executeUpdate();
 	      }
-	      else if(!address.isEmpty())
+	      if(!address.isEmpty())
 	      {
 		        preparedStatement = connect.prepareStatement("UPDATE Employee SET address = ? WHERE SSN = ?");
 		        preparedStatement.setString(1,address);    
