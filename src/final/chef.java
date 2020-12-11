@@ -110,10 +110,6 @@ class chef implements Employee
         return det;
         
 	  }
-    public  Boolean Login()
-    {
-    	return true;
-    }
 	public  void UpdatePersonaldetails(String phone, String address)throws SQLException
 	{
 		if(!phone.isEmpty())
