@@ -1,4 +1,4 @@
-package demoDB;
+package backend;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,8 +16,8 @@ public class Dishes
     {
     	try {
     		Class.forName("org.postgresql.Driver");
-    		connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem",
-                    "postgres", "gautham");
+    		connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbms",
+                    "postgres", "password");
     		
     		connect.createStatement();
     	}
@@ -27,54 +27,22 @@ public class Dishes
     		throw e;
     	}
     }
-    public void Adddish( ) throws SQLException 
+    public void Adddish(String DishId,String DishName,double price) throws SQLException 
     {
-    	System.out.println("Enter the  new dishid ");
-		String Dishid =ob.next();
-		System.out.println("Enter the  new dishname ");
-		String Dishname =ob.next();
-		System.out.println("Enter the  new price ");
-		double price=ob.nextDouble();
     	preparedStatement = connect.prepareStatement("INSERT INTO dish VALUES(?,?,?)");
     	
-    	preparedStatement.setString(1,Dishid);
-    	preparedStatement.setString(2,Dishname);
+    	preparedStatement.setString(1,DishId);
+    	preparedStatement.setString(2,DishName);
     	preparedStatement.setDouble(3,price);
     	
     	preparedStatement.executeUpdate();
-    	
-    	System.out.println("New Dish Inserted !!!!");
     }
     
-    public void UpdatePrice() throws SQLException
+    public void UpdatePrice(String DishId, double price) throws SQLException
     {
-    	System.out.println("Enter the Dishid of the dish to be updated ");
-		String Dishid =ob.next();
-		System.out.println("Enter the  new price ");
-		double price=ob.nextDouble();
     	preparedStatement = connect.prepareStatement("UPDATE dish SET price = ? WHERE Did = ?");
     	preparedStatement.setDouble(1, price);
-    	preparedStatement.setString(2,Dishid);
-    	
+    	preparedStatement.setString(2,DishId);
     	preparedStatement.executeUpdate();
     }
-    public static void main(String[] args) throws Exception 
-    {
-        	Dishes di = new Dishes();
-    		di.init();
-    		
-    		System.out.println("Enter 1 to Upadate price 2 to add dish");
-    		int c= ob.nextInt(); 
-    		if(c==1)
-    		{
-    			di.UpdatePrice();
-    			}
-    		else
-    		{
-    			di.Adddish();
-    		}
-    	
-					
-    }
-	
 }
