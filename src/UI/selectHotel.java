@@ -19,6 +19,7 @@ public class selectHotel {
     private JFrame frame;
     int count;
     String HName;
+    customer cobj;
 
 
     public selectHotel() throws Exception {
@@ -28,6 +29,8 @@ public class selectHotel {
 
 
     protected void initialize() throws Exception {
+    	cobj = new customer();
+    	
         frame = new JFrame();
         frame.getContentPane().setFont(new Font("Adobe Fangsong Std R", Font.BOLD, 18));
         frame.getContentPane().setBackground(new Color(220, 20, 60));
@@ -143,7 +146,8 @@ public class selectHotel {
                     HName = "RedFork Delightful";
                 }
                 try {
-                    new orderDishes(HName);
+                	cobj.HName = HName;
+                    new orderDishes(HName,cobj);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

@@ -42,6 +42,8 @@ public class orderDishes {
     String HName;
     ArrayList < String > ordered = new ArrayList < String > ();
     ArrayList < Integer > quan = new ArrayList < Integer > ();
+    customer cobj;
+    Object[] result;
 
     public void init() throws Exception {
         try {
@@ -56,8 +58,11 @@ public class orderDishes {
     }
 
     @SuppressWarnings("unchecked")
-	orderDishes(String name) throws Exception {
+	orderDishes(String name,customer customerOBJ) throws Exception {
+    	this.cobj = customerOBJ;
+    	cobj.init();
         init();
+        count = 0;
         addDishes(name);
 
         menu2 = new JFrame();
@@ -283,11 +288,15 @@ public class orderDishes {
     }
 
     public void addRow(String dishSelected, int dishCount) {
+    	result = new Object[10];
+    	ordered.add(dishSelected);
+        quan.add(dishCount);
+    	
         table.insertRow(this.count, new Object[] {
             dishSelected,
             dishCount
         });
-        this.count += 1;
 
+        cobj.orderDishes(ordered,quan);
     }
 }

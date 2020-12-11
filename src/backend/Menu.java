@@ -1,59 +1,52 @@
-package demoDB;
+package backend;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class Menu 
 {
 	
 	private Connection connect = null;
-	private PreparedStatement preparedStatement = null;
-	static Scanner ob = new Scanner(System.in);
-    public void init() throws Exception
-    {
+	private Statement statement = null;
+	private ResultSet resultSet = null;
+	Array array;
+	String dishes;
+	double prices;
+	Object[][] dets;
+
+    public void init() throws Exception{
     	try {
     		Class.forName("org.postgresql.Driver");
-    		connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HotelManagementSystem",
-                    "postgres", "gautham");
+    		connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbms",
+                    "postgres", "password");
     		
-    		connect.createStatement();
+    		statement = connect.createStatement();
     	}
     	
-    	catch(Exception e) 
-    	{
+    	catch(Exception e) {
     		throw e;
     	}
     }
     
-    public void ViewMenu() throws SQLException
-    {   
-    	System.out.println("Enter the Menuid of the menu to be viewed ");
-		String Mid =ob.next();
-		
-    	preparedStatement =connect.prepareStatement("select Dname from partof natural join dish where mid ='"+Mid+"'");  
-    	ResultSet rs=preparedStatement.executeQuery(); 
-    	System.out.println("    Menu     ");
-    	int i=1;
-    	while(rs.next())
-    	{  
-    		String dish = rs.getString(1);
-    		System.out.println("\t"+ i +"\t"+ dish ); 
-    		i++;
-    	}
-    	
-
-    	
-    }
-    public static void main(String[] args) throws Exception 
+    public Object[][] ViewMenu(String ssn) throws SQLException
     {
-    		Menu me = new Menu();
- 
-    		me.init();
-			me.ViewMenu();
+    	dets = new Object[3][3];
+    	int j=0;
+    	String query = "select dname,price from dish natural join partof natural join menu natural join hotelemp where ssn = '" + ssn + "'";
+    	resultSet = statement.executeQuery(query);
+    	while(resultSet.next()) {
+    		dishes = resultSet.getString("dname");
+    		prices = resultSet.getDouble("price");
+    		dets[j][0] = dishes;
+    		dets[j][1] = prices;
+    		j++;
+    	}
+        
+		return dets;
     }
-	
 }
