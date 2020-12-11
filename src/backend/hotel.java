@@ -51,6 +51,21 @@ public class hotel {
     hotel() throws Exception{
     	init();
     }
+    
+    public Object[] ViewBranchDetails(String ssn,String desig) throws Exception{
+		Object HData[] = new Object[10];
+    	if(desig.equals("H_CHEF")) {
+    		resultSet = statement.executeQuery("SELECT hid,hname,sdate,city,state FROM HOTEL NATURAL JOIN HOTELEMP WHERE ssn = '" + ssn + "'");
+    		while(resultSet.next()) {
+    			HData[0] = resultSet.getString("hid");
+    			HData[1] = resultSet.getString("hname");
+    			HData[2] = resultSet.getDate("sdate");
+    			HData[3] = resultSet.getString("city");
+    			HData[4] = resultSet.getString("state");
+    		}
+    	}
+		return HData;
+    }
 	
 	public Object[] ViewBranchDetails(String name) throws SQLException{
 		Object HData[] = new Object[10];
@@ -92,6 +107,7 @@ public class hotel {
 		
 		String dStr = formatter.format(date);
 		java.sql.Date target = java.sql.Date.valueOf(dStr);
+		@SuppressWarnings("unused")
 		LocalDate end = LocalDate.parse(dStr, dtf);
 		
 	    resultSet = statement.executeQuery("SELECT Last_Maintenance from hotel where hname = '" + name + "'");
