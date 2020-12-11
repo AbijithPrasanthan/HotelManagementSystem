@@ -81,10 +81,6 @@ public class Manager implements Employee {
     return dets;
   }
 
-  @Override
-  public Boolean Login() {
-    return true;
-  }
 
   @Override
   public void UpdatePersonaldetails(String phone, String address) throws SQLException {
