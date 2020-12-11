@@ -42,8 +42,9 @@ public class Menu
     	while(resultSet.next()) {
     		dishes = resultSet.getString("dname");
     		prices = resultSet.getDouble("price");
-    		dets[j][0] = dishes;
-    		dets[j][1] = prices;
+    		dets[j][0] =j+1;
+    		dets[j][1] = dishes;
+    		dets[j][2] = prices;
     		j++;
     	}
         
